@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "发布记录",
+  "usingComponents": {
+    "i-card": "../../dist/card/index"
+  },
+  "enablePullDownRefresh": true
+}

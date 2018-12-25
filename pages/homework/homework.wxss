@@ -1,0 +1,47 @@
+/* pages/homework/homework.wxss */
+page {
+  height: 100%;
+  background: rgb(248, 248, 248);
+}
+.bg-view {
+  height: 100%;
+  width: 100%;
+}
+.date-view {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+.date-label {
+  font-size: 17px;
+}
+
+.time-label {
+  margin-left: 20px;
+  font-size: 15px;
+  color: darkgray;
+}
+
+.line-view {
+  margin: 0 15px;
+  margin-top: 10px;
+  height: 1px;
+  border: 0px dashed darkcyan;
+  border-top-width: 1px;
+
+}
+
+.image-view {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.image-item {
+  width: 50px;
+  height: 50px;
+}
+
+.content-view {
+  margin: 0px 15px;
+}

@@ -1,0 +1,8 @@
+<!--pages/school/school.wxml-->
+<view class='school-input'>
+  <i-input  type='textarea'  value="{{school}}" title="学 校" bind:change="schoolChange" autofocus placeholder="{{placeholder}}" />
+</view>
+
+<view class='next-button'>
+  <i-button type='success' bind:click="nextStep">下一步</i-button>
+</view>

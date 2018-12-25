@@ -1,0 +1,15 @@
+{
+  "name": "homework",
+  "version": "1.0.0",
+  "description": "homework",
+  "main": "app.js",
+  "scripts": {
+    "test": "dev"
+  },
+  "author": "trowa",
+  "license": "ISC",
+  "dependencies": {
+    "miniprogram-datepicker": "^0.2.0",
+    "vant-weapp": "^0.4.9"
+  }
+}

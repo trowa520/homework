@@ -1,0 +1,176 @@
+.bg-view {
+  height: 100%;
+  width: 100%;
+}
+
+.card-view {
+  margin-top: 5px;
+}
+.card-list {
+  margin-top: 5px;
+}
+/* 右边 发布作业 悬浮按钮 */
+.right-flex-arrange-view {
+    height: 80rpx;
+    width: 250rpx;
+    background-color: rgb(2, 209, 113);
+    border-top-left-radius: 40rpx;
+    border-bottom-left-radius: 40rpx;
+    position: fixed;
+    bottom: 125px;
+    right: -40rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28rpx;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    line-height: 80rpx;
+    /* box-shadow: 0rpx -3rpx rgb(240, 240, 240) inset; */
+}
+/* 右边 发布记录 悬浮按钮 */
+.right-flex-record-view {
+    height: 80rpx;
+    width: 250rpx;
+    background: white;
+    border-top-left-radius: 40rpx;
+    border-bottom-left-radius: 40rpx;
+    position: fixed;
+    bottom: 70px;
+    right: -40rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28rpx;
+    text-align: center;
+    color: rgb(2, 209, 113);
+    line-height: 80rpx;
+}
+/* 左边 爱心积分 悬浮按钮 */
+.left-flex-score-view {
+    height: 80rpx;
+    padding: 0 20rpx;
+    background: white;
+    min-width: 150rpx;
+    border-radius: 40rpx;
+    position: fixed;
+    bottom: 70px;
+    left: -40rpx;
+    display: flex;
+    align-items: center;
+    font-size: 24rpx;
+    color: rgb(51, 51, 51);
+    line-height: 80rpx;
+}
+/* 作业内容 - 学科 */
+
+.subject-content-bg-view {
+  border: 0px solid rgb(240, 240, 240);
+  border-bottom-width: 1px;
+}
+
+.subject-content-view {
+  padding-top: 15px;
+  font-size: 30rpx;
+  color: rgb(51, 51, 51);
+  font-weight: bold;
+}
+/* 作业内容 */
+.content-text-bg-view {
+  padding-bottom: 10px;
+  display: flex;
+}
+.content-text {
+  line-height: 1.2;
+  font-size: 28rpx;
+  color: rgb(51, 51, 51);
+  margin-top:-20rpx;
+
+}
+
+/* 无数据页面 */
+.nodata-bg-view {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+}
+
+.nodata-view {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 无数据 图片 */
+.nodata-image {
+  height: 200px;
+}
+.notice-label {
+  margin-top: 30px;
+  font-size: 17px;
+  width: 300px;
+  text-align: center;
+  color: rgb(192, 192, 192);
+}
+
+/* 作业内容底部 媒体(图片、视频) 展示 */
+.media-bg-view {
+  display: flex;
+  padding-bottom: 15px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.footer-size-label {
+  font-size: 13px;
+  color: rgb(189, 189, 189);
+}
+
+.footer-subject-label {
+  font-size: 26rpx;
+  color: rgb(51, 51, 51);
+}
+.footer-image-view {
+  display: flex;
+  align-items: center;
+}
+.footer-subject-bg-view {
+  align-items: center;
+}
+
+.footer-image-bg-view {
+  flex: 2;
+  display: flex;
+  align-items: center;
+}
+
+.footer-content-view {
+  margin-left: 15px;
+  margin-right: 15px;
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-bottom: 5px;
+  margin-top: 10px;
+  font-size: 17px;
+  color: rgb(51, 51, 51);
+  background: rgb(248, 248, 248);
+  border-radius: 5px;
+  display: flex;
+  height: 80px;
+  width: 130px;
+  flex-direction: column;
+}
+
+.footer-image {
+  margin-right: 10px;
+  width:25px;
+  height:25px;
+}

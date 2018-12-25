@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/history/history",
+    "pages/homework/homework",
+    "pages/arrange/arrange",
+    "pages/school/school"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "white",
+    "navigationBarTitleText": "作业家",
+    "navigationBarTextStyle": "black"
+  }
+}

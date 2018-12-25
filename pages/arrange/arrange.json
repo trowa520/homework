@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "布置作业",
+  "usingComponents": {
+    "i-input": "../../dist/input/index",
+    "i-button": "../../dist/button/index",
+    "i-panel": "../../dist/panel/index",
+    "i-cell": "../../dist/cell/index",
+    "i-tag": "../../dist/tag/index"
+  }
+}

@@ -1,0 +1,246 @@
+/* pages/homework/homework.wxss */
+
+page {
+  height: 100%;
+  background: rgb(248, 248, 248);
+}
+
+.homeworkBGView {
+  height: 100%;
+  width: 100%;
+}
+
+.school-view {
+  margin-top: 1px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  background: white;
+}
+.left-school-view {
+  margin-left: 15px;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.schoo-name-view {
+  margin-left: 30px;
+  flex: 2;
+  font-size: 30rpx;
+}
+
+.edit-school-view {
+  font-size: 24rpx;
+  color: rgb(2, 209, 113);
+  margin-right: 15px;
+}
+.subject-view {
+  margin-top: 3px;
+  padding-bottom: 10px;
+  border-bottom-width: 1px;
+  background: white;
+}
+
+.subject-label {
+  padding-top: 10px;
+  margin-left: 15px;
+  font-size: 30rpx;
+  display: block;
+  font-weight: bold;
+}
+
+.content-label {
+  padding-top: 10px;
+  margin-left:15px;
+  display: block;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+.grade-label {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+.grade-bgview {
+  margin-top: 3px;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+}
+
+.grade-bgview picker {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.grade-view {
+  display: flex;
+  margin-left: 15px;
+}
+.right-view {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+.choose-label {
+  color: rgb(2, 209, 113);
+  font-size: 15px;
+  text-align: center;
+}
+
+.choose-view {
+  display: flex;
+}
+.content-view {
+  margin-top: 3px;
+  background: white;
+}
+.ui_uploader_cell {
+  margin-top: 50px;
+  height: 100%;
+  width: 100%;
+}
+
+.ui_uploader_item {
+  margin-left: 15px;
+  height: 100px;
+  width: 100px;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+}
+/* 删除按钮 */
+.delbtn {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: -10px;
+  top: -10px;
+  text-align: center;
+  z-index: 99;
+}
+
+/* 上传按钮 */
+.ui_uploader {
+  margin-left: 15px;
+  height: 50px;
+  width: 50px;
+  border-radius: 5px;
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+  
+.service_selection {  
+  background: #fff;  
+  display: flex;
+  justify-content: space-around;
+}  
+  
+.service_selection label {
+  margin-top: 10px;
+  background: rgb(248, 248, 248);  
+  padding: 0px 20px;  
+  font-size: 26rpx;  
+  border-radius: 4px;  
+  line-height: 40px;
+  display: inline-block;
+}  
+  
+.service_selection .is_checked {  
+  color: rgb(2, 209, 113);  
+  background: rgb(238, 251, 245);  
+  display: inline-block;
+}
+
+.save-button {
+  margin: 0px 15px;
+  background: rgb(2, 209, 113);
+  height: 50px;
+  text-align: center;
+  color: white;
+  display: flex;
+  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.pick-button {
+  padding:5px 10px;
+  font-size:26rpx;
+  color:rgb(2, 209, 113);
+  text-align:right;
+  width:200px;
+}
+
+.award-notice-view {
+  line-height: 20px;
+  margin-top: 10px;
+  color: rgb(192, 192, 192);
+  font-size: 15px;
+  text-align: center;
+}
+
+.content-input {
+  margin-top: 15px;
+  margin-left: 15px;
+  font-size: 26rpx;
+}
+
+/*模态框*/
+.modals{position:fixed; z-index: 999; top:0; left: 0; right:0; bottom: 0;}
+.modals-cancel{position:absolute; z-index:1000; top:0; left: 0; right:0; bottom: 0; background-color: rgba(0,0,0,.5);}
+.bottom-dialog-body{position:absolute; z-index:10001; bottom:0; left:0; right:0; height:410rpx; background: rgb(247, 247, 247);}
+/*动画前初始位置*/
+.bottom-pos{-webkit-transform:translateY(100%);transform:translateY(100%);}
+
+.upload-main-bg-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.upload-type-view {
+  display: flex;
+  width: 100%;
+  height: 220rpx;
+  justify-content: space-around;
+  margin-top: 80rpx;
+}
+
+.upload-type-item-view {
+  width: 128rpx;
+  height: 208rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+.upload-cancel-view {
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+}
+.upload-cover-view {
+  height: 128rpx;
+  width: 128rpx;
+}
+.upload-description-view {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: rgb(102, 102, 102);
+}
+

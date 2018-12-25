@@ -1,0 +1,154 @@
+<!--index.wxml-->
+<view class="bg-view">
+<!-- <view class='container'> 
+    <view class="userinfo">
+      <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 登陆 </button> -->
+      <!-- <view wx:else>
+        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      </view> -->
+    <!-- </view> -->
+    <!-- <div class="userinfo-nickname">{{userInfo.nickName}}</div>  -->
+<!-- </view> -->
+<view class='grade-bg-view'>
+
+<view class="grade-view" bindtap='showOrhide'>
+  <view>
+    {{schoolInfo.grade}}{{schoolInfo.virtual_class}}
+  </view>
+  <view class='arrow-view'>
+    <image wx:if="{{schoolInfo}}" class='arrow' src='../../images/arrow.png'></image>
+  </view>
+</view>
+<!-- 选择学校 -->
+<!-- <view class="grade-view" bindtap='showSchools'>
+  <view>
+    {{schoolInfo.grade}}{{schoolInfo.virtual_class}}
+  </view>
+  <view class='arrow-view'>
+    <image wx:if="{{schoolInfo}}" class='arrow' src='../../images/arrow.png'></image>
+  </view>
+</view> -->
+<!-- 选择学校班级下拉框 -->
+<!-- <view class='select-bg-view' style="display:{{isSelect}}" bindtap='showSchools'>
+  <view class="select-view" style="display:{{isSelect}}">
+    <block wx:for="{{schools}}" wx:item="{{item}}" wx:key >
+      <view class="school-cell-view && {{schoolInfo.id == item.id ? 'choose-view' : ''}}" data-schoolinfo="{{item}}" bindtap='selectSchool'>
+        <view class='item-view'>{{item.grade}}{{item.virtual_class}}</view>
+      </view>
+    </block>
+  </view>
+</view> -->
+</view>
+
+  <block wx:if="{{homeworks.length > 0}}">
+    <view class='card-view' >
+    <!-- 按照日期 读取列表 -->
+      <block wx:if="{{homeworks}}" wx:key="" data-id=""  wx:for="{{homeworks}}" wx:for-item="lists">
+        <i-card class='card-list' title="{{lists[0].week}}" date=" ({{lists[0].date}})" extra="更新于{{lists[0].time}}" data-date="{{lists[0].date}}" bindtap='clickDetail'>
+          <view slot="content">
+          <!-- 每个日期下 根据学科读取列表 -->
+            <block wx:if="{{homeworks}}" wx:key="{{homework.id}}" data-id="{{homework.id}}"  wx:for="{{lists}}" wx:for-item="homework">
+              <view class='subject-content-bg-view'>
+                <view class='subject-content-view'>
+                    {{homework.subject}}作业：
+                </view>
+                <view class='content-text-bg-view'>
+                  <text class="content-text">
+                    {{homework.content}}
+                  </text>
+                </view>
+              </view>
+            </block>
+          </view>
+          <!-- 卡片底部 展示的图片 视频  -->
+          <view slot="media">
+            <!-- 展示图片 -->
+            <view class='media-bg-view'>
+              <block wx:if="{{homeworks}}" wx:key="{{homework.id}}" data-id="{{homework.id}}"  wx:for="{{lists}}" wx:for-item="homework">
+                <view class='footer-content-view' wx:if="{{homework.images.length > 0}}" data-images="{{homework.images}}" catchtap="showImages">
+                  <view>
+                    <label class='footer-subject-label'>{{homework.subject}}作业</label>
+                  </view>
+                  <view class='footer-image-bg-view'>
+                    <view class='footer-image-view'>
+                      <image class='footer-image'  src='../../images/image.png'></image>
+                    </view>
+                    <view class='footer-subject-bg-view'>
+                      <label class='footer-size-label'>{{homework.image_size}}KB</label>
+                    </view>
+                  </view>
+                </view>
+                <!-- 展示视频 -->
+                <block wx:for="{{homework.videos}}" wx:item="{{item}}" wx:key="{{index}}">
+                  <view class='footer-content-view' wx:if="{{homework.videos.length > 0}}" catchtap="showVideos">
+                    <view >
+                      <label class='footer-subject-label'>{{homework.subject}}作业</label>
+                    </view>
+                    <view class='footer-image-bg-view'>
+
+                      <!-- <view class='footer-image-view'>
+                        <image class='footer-image'  src='../../images/video.png'></image>
+                      </view>
+                      <view class='footer-subject-bg-view'>
+                        <label class='footer-size-label'>{{homework.video_size}}KB</label>
+                      </view> -->
+                      <video style='height:60px;width:120px;' autoplay='false' src="{{item}}" data-index="{{index}}" bindfullscreenchange="bindVideoScreenChange" controls></video>
+                    </view>
+                  </view>
+                </block>
+              </block>
+            </view>
+          </view>
+        </i-card>
+      </block>
+    </view>
+  </block>
+  <!-- 没有数据展示的空页面 -->
+  <block wx:else>
+    <view class="nodata-bg-view">
+      <view class="nodata-view">
+        <image class='nodata-image' mode='aspectFit' src='../../images/nodata.png'> </image>
+        <label class='notice-label'>还没有作业，下拉刷新试试</label>
+      </view>
+    </view>
+  </block>
+  
+
+
+
+  <!--圆形点击框  -->
+    <cover-view class="right-flex-arrange-view" data-type="arrange" bindtap='navigateTo'>
+      发布作业
+    </cover-view>
+  
+    <cover-view class="right-flex-record-view" data-type="history" bindtap='navigateTo'>
+      发布记录
+    </cover-view>
+
+    <cover-view class="left-flex-score-view">
+      <cover-image class="like-image {{loveScore > 0 ? 'like-show' : 'like-hiden'}}" src='../../images/like.png'></cover-image>
+      <cover-view > {{ loveScore == 0 ? '发布1次得10❤️，获得100❤️可兑换精美礼品哦~' : loveScore }} </cover-view> 
+    </cover-view>
+
+  <view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
+    <view class="modals-cancel" bindtap="hideModal"></view>
+    <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
+      <!-- <view class='select-bg-view'  bindtap='showSchools'>
+        <view class="select-view" > -->
+        <view class='modal-item-view'>
+          <block wx:for="{{schools}}" wx:item="{{item}}" wx:key >
+            <view class="school-cell-view && {{schoolInfo.id == item.id ? 'choose-view' : ''}}" data-schoolinfo="{{item}}" bindtap='selectSchool'>
+              <view class='item-view'>{{item.grade}}{{item.virtual_class}}</view>
+            </view>
+          </block>
+        </view>
+          
+        <!-- </view>
+      </view> -->
+      
+      
+      
+    
+    </view>
+</view>
+</view>

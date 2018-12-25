@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "作业清单",
+  "usingComponents": {
+    "i-card": "../../dist/card/index"
+  },
+  "enablePullDownRefresh": true
+}

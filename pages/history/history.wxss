@@ -1,0 +1,53 @@
+page {
+  height: 100%;
+  background: rgb(248, 248, 248);
+}
+
+.nodata-bg-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.bg-view {
+  margin-top: 3px;
+}
+.scroll_box{
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  white-space: nowrap;
+  height: 40px;
+}
+.grade_list{
+  height: 40px;
+  width: 100px;
+  border: 0px solid rgb(2, 209, 113);
+  border-bottom-width: 0px;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.grade-view {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+.bottom-line-view {
+  position: absolute;
+  top: 37px;
+  left: 30px;
+  right: 30px;
+  background: white;
+  height: 3px;
+}
+.nodata-bg-view {
+  top: 40px;
+}
+.choose {
+  background: rgb(2, 209, 113);
+}
