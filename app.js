@@ -78,16 +78,13 @@ App({
                       key: 'openId',
                       data: res.data.openid,
                     })
-                    that.socialLogin(res.data.openid, resolve, reject)
-                  }else {
-                    that.socialLogin(res.data.openid, resolve, reject)
                   }
-                }catch(e) {
-                  wx.setStorage({
-                    key: 'openId',
-                    data: res.data.openid,
-                  })
                   that.socialLogin(res.data.openid, resolve, reject)
+                }catch(e) {
+                  wx.showToast({
+                    title: '正在获取数据，请稍等...',
+                    icon: 'none'
+                  })
                 }
               },
               fail: function (res) {

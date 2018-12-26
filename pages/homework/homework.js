@@ -18,9 +18,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
     let date = options.date
-    this.data.date = date
-
+    that.data.date = date
     if(options.id) {
       var schoolInfo = {
         id: options.id,
@@ -35,9 +35,33 @@ Page({
         key: 'schoolInfo',
         data: schoolInfo,
       })
+      app.login().then(() => {
+        that.bindSchool(options)
+      })
     }
   },
-
+  bindSchool:function(options){
+    wx.request({
+      url: app.globalData.host + '/api/bind-school',
+      method: "POST",
+      data: {
+        school: options.school,
+        grade: options.grade,
+        virtual_class: options.virtual_class
+      },
+      header: {
+        'Authorization': app.globalData.token
+      },
+      success: function (res) {
+        if(res.data.data.length > 0) {
+          wx.setStorage({
+            key: 'schoolInfo',
+            data: res.data.data,
+          })
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -50,7 +74,9 @@ Page({
         that.setData({
           schoolInfo: res.data
         })
-        wx.showLoading()
+        wx.showLoading({
+          'title': '加载中...'
+        })
         that.getHomeworks()
       },
     })

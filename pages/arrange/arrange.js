@@ -1,6 +1,6 @@
 // pages/homework/homework.js
 const app = getApp()
-import { String } from '../../utils/util.js';
+import { String,formatTime } from '../../utils/util.js';
 
 Page({
 
@@ -21,6 +21,8 @@ Page({
     grade_classes: [],
     grade_class_index: [0, 0],
     schoolInfo:{},
+
+    date: '',
 
     grade: '点击选择',
     virtual_class: '',
@@ -57,11 +59,15 @@ Page({
       return
     }
     wx.chooseImage({
-      count: 6 - that.data.uploaderNum, // 默认6
+      count: 1, // 默认6
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-      sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
+      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         console.log('选取图片成功')
+        wx.showLoading({
+          title: '正在上传图片，请稍后...',
+          mask:true
+        })
         wx.uploadFile({
           url: app.globalData.host + "/api/file",
           filePath: res.tempFilePaths[0],
@@ -76,6 +82,7 @@ Page({
             file_type: 'images'
           },
           success: function (res) {
+            wx.hideLoading()
             var file = JSON.parse(res.data)
             var image_ids = that.data.image_ids.concat(file.data.id)
             that.setData({
@@ -83,11 +90,9 @@ Page({
             })
           },
           fail: function (res) {
+            wx.hideLoading()
             console.log(res)
-          },
-          complete: function (res) {
-
-          },
+          }
         })
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         let tempFilePaths = res.tempFilePaths;
@@ -103,7 +108,6 @@ Page({
         }
       }
     })
-
   },
   //展示图片
   showImg: function (e) {
@@ -158,10 +162,6 @@ Page({
       })
       return
     }
-    wx.showLoading({
-      title: '正在上传视频。。。',
-      mask: true
-    })
     wx.chooseVideo({
       sourceType: ['album'],
       maxDuration: 60,
@@ -181,6 +181,10 @@ Page({
         let tempFilePaths = res.tempFilePaths;
         let uploaderList = that.data.videoList.concat(tempFilePaths);
         console.log('选取视频成功')
+        wx.showLoading({
+          title: '正在上传视频，请稍后...',
+          mask: true
+        })
         wx.uploadFile({
           url: app.globalData.host + "/api/file",
           filePath: res.tempFilePath,
@@ -195,20 +199,18 @@ Page({
             file_type: 'mp4'
           },
           success: function (res) {
+            wx.hideLoading()
             var file = JSON.parse(res.data)
             var video_ids = that.data.video_ids.concat(file.data.id)
             that.setData({
               video_ids: video_ids
             })
-            wx.hideLoading()
+            
           },
           fail: function (res) {
             let result = JSON.parse(res.data)
-            wx.hideLoading()
-          },
-          complete: function (res) {
-
-          },
+            
+          }
         })
         uploadNum = uploadNum + 1
         that.setData({
@@ -273,6 +275,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this
+    that.setData({
+      date: that.getDate()
+    })
     if(options.school) {
       this.setData({
         school: options.school,
@@ -284,7 +289,9 @@ Page({
         success: function(res) {
           that.setData({
             schoolInfo: res.data,
-            school: res.data.school
+            school: res.data.school,
+            grade: res.data.grade,
+            virtual_class: res.data.virtual_class
           })
         },
       })
@@ -297,7 +304,24 @@ Page({
       withShareTicket: true
     })
   },
-
+  getDate: function() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var day = now.getDate();
+    if(month < 10) {
+      month = '0' + month;
+    };
+    if(day < 10) {
+      day = '0' + day;
+    };
+    //  如果需要时分秒，就放开
+    // var h = now.getHours();
+    // var m = now.getMinutes();
+    // var s = now.getSeconds();
+    var formatDate = year + '-' + month + '-' + day;
+    return formatDate;
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -328,41 +352,14 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
     var that = this
+    let schoolInfo = that.data.schoolInfo
     return {
       title: '客官，您的作业来了！',
-      path: '/pages/homework/homework',
+      path: '/pages/homework/homework?date=' + this.data.date + '&id=' + schoolInfo.id + '&school_id=' + schoolInfo.school_id + '&school=' + schoolInfo.school + '&grade_id=' + schoolInfo.grade_id + '&grade=' + schoolInfo.grade + '&class_id=' + schoolInfo.class_id + '&virtual_class=' + schoolInfo.virtual_class,
       success: function (res) {
         var shareTickets = res.shareTickets;
         if (shareTickets.length == 0) {
@@ -515,7 +512,8 @@ Page({
               data: e.data.schoolInfo,
             })
             that.setData({
-              is_share: true
+              is_share: true,
+              date: e.data.data.date
             })
           }
 

@@ -117,10 +117,10 @@ page {
 /* 删除按钮 */
 .delbtn {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  right: -10px;
-  top: -10px;
+  width: 15px;
+  height: 15px;
+  right: 0px;
+  top: 0px;
   text-align: center;
   z-index: 99;
 }

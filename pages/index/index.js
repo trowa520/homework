@@ -92,6 +92,9 @@ Page({
             key: 'schoolInfo',
             // 如果设置过学校
             success: function (res) {
+              that.setData({
+                schoolInfo: res.data
+              })
             },
             // 如果没有设置过学校
             fail:function(res) {
@@ -106,7 +109,15 @@ Page({
               })
             }
           })
-        } 
+        } else {
+          that.setData({
+              schools: [that.data.schoolInfo]
+          })
+          wx.setStorage({
+            key: 'schools',
+            data: [that.data.schoolInfo],
+          })
+        }
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
         // 停止下拉动作
@@ -235,13 +246,12 @@ Page({
         that.setData({
           schoolInfo: res.data
         })
-        that.schoolInfo = res.data
       },
     })
     switch(type) {
       case 'arrange':
         // 判断此人是否有学校
-        if(that.schoolInfo) {
+        if(that.data.schoolInfo) {
           wx.navigateTo({
             url: '/pages/arrange/arrange',
           })
@@ -292,14 +302,18 @@ Page({
       data: schoolInfo,
       currentPage: 1
     })
-    wx.showLoading()
+    wx.showLoading({
+      'title' : '加载中...'
+    })
     this.getHomeworks(1)
   },
   // 下拉刷新
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading()
     var that = this
-    wx.showLoading() 
+    wx.showLoading({
+      'title': '加载中...'
+    })
     that.setData({
       hideModal: true,
       currentPage: 1
@@ -309,7 +323,9 @@ Page({
   onReachBottom: function() {
     var that = this;
     // 显示加载图标  
-    wx.showLoading() 
+    wx.showLoading({
+      'title': '加载中...'
+    })
     that.data.currentPage += 1
     console.log(that.data)
     if(that.data.currentPage <= that.data.totalPage) {

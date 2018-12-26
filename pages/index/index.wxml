@@ -19,25 +19,7 @@
     <image wx:if="{{schoolInfo}}" class='arrow' src='../../images/arrow.png'></image>
   </view>
 </view>
-<!-- 选择学校 -->
-<!-- <view class="grade-view" bindtap='showSchools'>
-  <view>
-    {{schoolInfo.grade}}{{schoolInfo.virtual_class}}
-  </view>
-  <view class='arrow-view'>
-    <image wx:if="{{schoolInfo}}" class='arrow' src='../../images/arrow.png'></image>
-  </view>
-</view> -->
-<!-- 选择学校班级下拉框 -->
-<!-- <view class='select-bg-view' style="display:{{isSelect}}" bindtap='showSchools'>
-  <view class="select-view" style="display:{{isSelect}}">
-    <block wx:for="{{schools}}" wx:item="{{item}}" wx:key >
-      <view class="school-cell-view && {{schoolInfo.id == item.id ? 'choose-view' : ''}}" data-schoolinfo="{{item}}" bindtap='selectSchool'>
-        <view class='item-view'>{{item.grade}}{{item.virtual_class}}</view>
-      </view>
-    </block>
-  </view>
-</view> -->
+
 </view>
 
   <block wx:if="{{homeworks.length > 0}}">
@@ -117,15 +99,15 @@
 
 
   <!--圆形点击框  -->
-    <cover-view class="right-flex-arrange-view" data-type="arrange" bindtap='navigateTo'>
+    <cover-view wx:if="{{hideModal}}" class="right-flex-arrange-view" data-type="arrange" bindtap='navigateTo'>
       发布作业
     </cover-view>
   
-    <cover-view class="right-flex-record-view" data-type="history" bindtap='navigateTo'>
+    <cover-view wx:if="{{hideModal}}" class="right-flex-record-view" data-type="history" bindtap='navigateTo'>
       发布记录
     </cover-view>
 
-    <cover-view class="left-flex-score-view">
+    <cover-view wx:if="{{hideModal}}" class="left-flex-score-view">
       <cover-image class="like-image {{loveScore > 0 ? 'like-show' : 'like-hiden'}}" src='../../images/like.png'></cover-image>
       <cover-view > {{ loveScore == 0 ? '发布1次得10❤️，获得100❤️可兑换精美礼品哦~' : loveScore }} </cover-view> 
     </cover-view>
@@ -133,21 +115,14 @@
   <view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
     <view class="modals-cancel" bindtap="hideModal"></view>
     <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
-      <!-- <view class='select-bg-view'  bindtap='showSchools'>
-        <view class="select-view" > -->
-        <view class='modal-item-view'>
-          <block wx:for="{{schools}}" wx:item="{{item}}" wx:key >
-            <view class="school-cell-view && {{schoolInfo.id == item.id ? 'choose-view' : ''}}" data-schoolinfo="{{item}}" bindtap='selectSchool'>
-              <view class='item-view'>{{item.grade}}{{item.virtual_class}}</view>
-            </view>
-          </block>
-        </view>
-          
-        <!-- </view>
-      </view> -->
       
-      
-      
+      <view class='modal-item-view'>
+        <block wx:for="{{schools}}" wx:item="{{item}}" wx:key >
+          <view class="school-cell-view && {{schoolInfo.id == item.id ? 'choose-view' : ''}}" data-schoolinfo="{{item}}" bindtap='selectSchool'>
+            <view class='item-view'>{{item.grade}}{{item.virtual_class}}</view>
+          </view>
+        </block>
+      </view>
     
     </view>
 </view>

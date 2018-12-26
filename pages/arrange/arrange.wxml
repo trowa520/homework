@@ -28,7 +28,7 @@
   </view>
   <view class='grade-bgview'>
     <view class="grade-view">
-      <label class='grade-label'>班级</label>
+      <label class='grade-label'>适用班级</label>
     </view>
     <view class="choose-view">
       <picker mode="multiSelector" bindchange="chooseGradeAndClass"  value="{{grade_class_index}}" range="{{grade_classes}}" range-key="{{'name'}}">
@@ -43,7 +43,7 @@
   
   </view>
   <view class='content-view'>
-    <label class='content-label'>内容</label>
+    <label class='content-label'>作业内容</label>
     <!-- <i-input value="{{ value3 }}" require class='detail' type="textarea" bind:change="contentChange"  placeholder="填写或粘贴作业内容" minlength="5" /> -->
     <textarea class='content-input' type='textarea' maxlength='-1' auto-height='true' bindinput="contentChange" placeholder='填写或粘贴作业内容'></textarea>
     <view class='ui_uploader_cell'>

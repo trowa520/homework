@@ -72,6 +72,9 @@ Page({
           virtual_class: that.data.schoolInfo.virtual_class,
           page: currentPage
         },
+        header: {
+          'Authorization' : app.globalData.token
+        },
         success: function (res) {
           if (res.data.data.data.length > 0) {
             if (currentPage == 1) {
@@ -124,13 +127,17 @@ Page({
       hideModal: true,
       currentPage: 1
     })
-    wx.showLoading()
+    wx.showLoading({
+      'title': '加载中...'
+    })
     that.getHomeworks(1)
   },
   onReachBottom: function () {
     var that = this;
     // 显示加载图标  
-    wx.showLoading()
+    wx.showLoading({
+      'title': '加载中...'
+    })
     that.data.currentPage += 1
     if (that.data.currentPage <= that.data.totalPage) {
       that.getHomeworks(that.data.currentPage)
@@ -151,7 +158,9 @@ Page({
       data: schoolInfo,
       currentPage: 1
     })
-    wx.showLoading()
+    wx.showLoading({
+      'title': '加载中...'
+    })
     this.getHomeworks(1)
   },
   showImages: function (e) {
