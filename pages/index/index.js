@@ -56,18 +56,17 @@ Page({
     var that = this
     wx.getStorage({
       key: 'schoolInfo',
-      success: function(res) {
+      success: function (res) {
         that.setData({
           schoolInfo: res.data,
         })
         that.getHomeworks(1)
       },
-    })  
+    })
     // 在登陆状态下获取学校信息
     app.login().then(() => {
       that.getSchools()
     })
-    that.getHomeworks(1)
   },
   // 获取学校信息
   getSchools:function(e) {
@@ -88,30 +87,27 @@ Page({
           })
           // 判断用户是否设置过学校 如果没有 默认选中第一个
           let firstSchool = res.data.data[0]
-          wx.getStorage({
-            key: 'schoolInfo',
-            // 如果设置过学校
-            success: function (res) {
+          try {
+            const schoolInfo = wx.getStorageSync('schoolInfo')
+            if (String.isBlank(schoolInfo)) {
+              // 如果没有设置过学校
+              wx.setStorageSync('schoolInfo', firstSchool)
               that.setData({
-                schoolInfo: res.data
+                schoolInfo: firstSchool
               })
-            },
-            // 如果没有设置过学校
-            fail:function(res) {
-              wx.setStorage({
-                key: 'schoolInfo',
-                data: firstSchool,
-                success:function(){
-                  that.setData({
-                    schoolInfo: firstSchool
-                  })
-                }
+            }else {
+              // 如果设置过学校
+              that.setData({
+                schoolInfo: schoolInfo
               })
             }
-          })
+            that.getHomeworks(1)
+          } catch(e) {
+            
+          }
         } else {
           that.setData({
-              schools: [that.data.schoolInfo]
+              schools: [that.data.schoolInfo],
           })
           wx.setStorage({
             key: 'schools',

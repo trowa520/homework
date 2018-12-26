@@ -40,8 +40,6 @@ Page({
     image_ids:[], // 上传的图片id
     video_ids:[],  // 上传的视频id
 
-    is_share: false,
-
     times:0,
     score:0
   },
@@ -65,7 +63,7 @@ Page({
       success: function (res) {
         console.log('选取图片成功')
         wx.showLoading({
-          title: '正在上传图片，请稍后...',
+          title: '正在上传...',
           mask:true
         })
         wx.uploadFile({
@@ -182,7 +180,7 @@ Page({
         let uploaderList = that.data.videoList.concat(tempFilePaths);
         console.log('选取视频成功')
         wx.showLoading({
-          title: '正在上传视频，请稍后...',
+          title: '正在上传...',
           mask: true
         })
         wx.uploadFile({
@@ -300,10 +298,8 @@ Page({
       times: app.globalData.times,
       score: app.globalData.score
     })
-    wx.showShareMenu({
-      withShareTicket: true
-    })
   },
+
   getDate: function() {
     var now = new Date();
     var year = now.getFullYear();
@@ -322,13 +318,6 @@ Page({
     var formatDate = year + '-' + month + '-' + day;
     return formatDate;
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -350,48 +339,47 @@ Page({
       }
     })
   },
-
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    var that = this
-    let schoolInfo = that.data.schoolInfo
-    return {
-      title: '客官，您的作业来了！',
-      path: '/pages/homework/homework?date=' + this.data.date + '&id=' + schoolInfo.id + '&school_id=' + schoolInfo.school_id + '&school=' + schoolInfo.school + '&grade_id=' + schoolInfo.grade_id + '&grade=' + schoolInfo.grade + '&class_id=' + schoolInfo.class_id + '&virtual_class=' + schoolInfo.virtual_class,
-      success: function (res) {
-        var shareTickets = res.shareTickets;
-        if (shareTickets.length == 0) {
-          return false;
-        }
-        wx.getShareInfo({
-          shareTicket: shareTickets[0],
-          success: function (res) {
-            var encryptedData = res.encryptedData;
-            var iv = res.iv;
-            wx.request({
-              url:  app.globalData.host + '/encrypted-data',
-              data: {
-                session_key: app.globalData.sessionKey,
-                encrypted_data: res.encryptedData,
-                iv: res.iv,
-                program: 'homework'
-              },
-              success:function(res) {
-                console.log(res)
-              }
-            })
-            wx.reLaunch({
-              url: '/pages/index/index',
-            })
-          }
-        })
-      },
-      fail: function (res) {
-        // 转发失败
-      }
-    }
+    // var that = this
+    // let schoolInfo = that.data.schoolInfo
+    // return {
+    //   title: '客官，您的作业来了！',
+    //   path: '/pages/homework/homework?date=' + this.data.date + '&id=' + schoolInfo.id + '&school_id=' + schoolInfo.school_id + '&school=' + schoolInfo.school + '&grade_id=' + schoolInfo.grade_id + '&grade=' + schoolInfo.grade + '&class_id=' + schoolInfo.class_id + '&virtual_class=' + schoolInfo.virtual_class,
+    //   success: function (res) {
+    //     var shareTickets = res.shareTickets;
+    //     if (shareTickets.length == 0) {
+    //       return false;
+    //     }
+    //     wx.getShareInfo({
+    //       shareTicket: shareTickets[0],
+    //       success: function (res) {
+    //         var encryptedData = res.encryptedData;
+    //         var iv = res.iv;
+    //         wx.request({
+    //           url:  app.globalData.host + '/encrypted-data',
+    //           data: {
+    //             session_key: app.globalData.sessionKey,
+    //             encrypted_data: res.encryptedData,
+    //             iv: res.iv,
+    //             program: 'homework'
+    //           },
+    //           success:function(res) {
+    //             console.log(res)
+    //           }
+    //         })
+    //         wx.reLaunch({
+    //           url: '/pages/index/index',
+    //         })
+    //       }
+    //     })
+    //   },
+    //   fail: function (res) {
+    //     // 转发失败
+    //   }
+    // }
   },
   // 选择科目
   serviceValChange: function (e) {
@@ -512,8 +500,10 @@ Page({
               data: e.data.schoolInfo,
             })
             that.setData({
-              is_share: true,
               date: e.data.data.date
+            })
+            wx.navigateTo({
+              url: '/pages/homework/homework?date=' + e.data.data.date,
             })
           }
 

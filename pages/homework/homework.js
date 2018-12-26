@@ -39,6 +39,9 @@ Page({
         that.bindSchool(options)
       })
     }
+    wx.showShareMenu({
+      withShareTicket: true
+    })
   },
   bindSchool:function(options){
     wx.request({
@@ -88,15 +91,42 @@ Page({
    */
   onShareAppMessage: function (options) {
     var that = this
-    var schoolInfo =  that.data.schoolInfo
-    if(options.from == 'button') {
-      console.log('button')
-      return {
-        title : '您的作业来了。。。',
-        path: '/pages/homework/homework?date=' + this.data.date + '&id=' + schoolInfo.id + '&school_id=' + schoolInfo.school_id + '&school=' + schoolInfo.school + '&grade_id=' + schoolInfo.grade_id + '&grade=' + schoolInfo.grade + '&class_id=' + schoolInfo.class_id + '&virtual_class=' + schoolInfo.virtual_class
+    let schoolInfo = that.data.schoolInfo
+    return {
+      title: '客官，您的作业来了！',
+      path: '/pages/homework/homework?date=' + this.data.date + '&id=' + schoolInfo.id + '&school_id=' + schoolInfo.school_id + '&school=' + schoolInfo.school + '&grade_id=' + schoolInfo.grade_id + '&grade=' + schoolInfo.grade + '&class_id=' + schoolInfo.class_id + '&virtual_class=' + schoolInfo.virtual_class,
+      success: function (res) {
+        var shareTickets = res.shareTickets;
+        if (shareTickets.length == 0) {
+          return false;
+        }
+        wx.getShareInfo({
+          shareTicket: shareTickets[0],
+          success: function (res) {
+            var encryptedData = res.encryptedData;
+            var iv = res.iv;
+            wx.request({
+              url: app.globalData.host + '/encrypted-data',
+              data: {
+                session_key: app.globalData.sessionKey,
+                encrypted_data: res.encryptedData,
+                iv: res.iv,
+                program: 'homework'
+              },
+              success: function (res) {
+                console.log(res)
+              }
+            })
+            
+          }
+        })
+        wx.reLaunch({
+          url: '/pages/index/index',
+        })
+      },
+      fail: function (res) {
+        // 转发失败
       }
-    }else {
-      console.log('top')
     }
 
   },

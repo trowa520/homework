@@ -64,11 +64,8 @@
       </view>
     </view>
   </view>
-  <button wx:if="{{!is_share}}" class='save-button' bindtap='arrangeHomework'>
+  <button class='save-button' bindtap='arrangeHomework'>
     保 存
-  </button>
-  <button wx:if="{{is_share}}" class='save-button' open-type='share'>
-    分 享
   </button>
     <view class='award-notice-view'>
       <label>您已发送{{times}}次作业，获得{{score}}</label>

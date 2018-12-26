@@ -94,9 +94,6 @@
       </view>
     </view>
   </block>
-  
-
-
 
   <!--圆形点击框  -->
     <cover-view wx:if="{{hideModal}}" class="right-flex-arrange-view" data-type="arrange" bindtap='navigateTo'>
@@ -118,7 +115,7 @@
       
       <view class='modal-item-view'>
         <block wx:for="{{schools}}" wx:item="{{item}}" wx:key >
-          <view class="school-cell-view && {{schoolInfo.id == item.id ? 'choose-view' : ''}}" data-schoolinfo="{{item}}" bindtap='selectSchool'>
+          <view class="school-cell-view && {{ (schoolInfo.school_id == item.school_id && schoolInfo.grade_id == item.grade_id && schoolInfo.class_id == item.class_id ) ? 'choose-view' : ''}}" data-schoolinfo="{{item}}" bindtap='selectSchool'>
             <view class='item-view'>{{item.grade}}{{item.virtual_class}}</view>
           </view>
         </block>
