@@ -53,6 +53,6 @@ page {
   height:100%;
 
 }
-.scoll-h{
+.scoll-height{
   height: 100%;
 }

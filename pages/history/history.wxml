@@ -73,7 +73,7 @@
 <!-- <view class='bg-view'>
   <swiper class="tab-content" current="{{currentTab}}" duration="300" bindchange="switchTab">
       <swiper-item wx:key="" wx:for="{{schools}}">
-          <scroll-view scroll-y="true" class="scoll-h" >
+          <scroll-view scroll-y="true" class="scoll-height" >
               <block wx:if="{{homeworks.length > 0}}">
                 <view class='card-view' >
                   <block wx:if="{{homeworks}}" wx:key="" data-id=""  wx:for="{{homeworks}}" wx:for-item="lists">

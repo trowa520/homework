@@ -198,10 +198,13 @@ Page({
     if (that.data.currentPage <= that.data.totalPage) {
       that.getHomeworks(that.data.currentPage)
     } else {
-      wx.showToast({
-        title: '已经是最后一页了！',
-        icon: 'none'
-      })
+      wx.hideLoading()
+      if(that.data.totalPage > 1) {
+        wx.showToast({
+          title: '已经是最后一页了！',
+          icon: 'none'
+        })
+      }
     }
   },
   // 改变学校
