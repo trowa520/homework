@@ -9,18 +9,16 @@
     <!-- </view> -->
     <!-- <div class="userinfo-nickname">{{userInfo.nickName}}</div>  -->
 <!-- </view> -->
-<view class='grade-bg-view'>
-
-<view class="grade-view" bindtap='showOrhide'>
-  <view>
-    {{schoolInfo.grade}}{{schoolInfo.virtual_class}}
+  <view class='grade-bg-view'>
+    <view class="grade-view" bindtap='showOrhide'>
+      <view>
+        {{schoolInfo.grade}}{{schoolInfo.virtual_class}}
+      </view>
+      <view class='arrow-view'>
+        <image wx:if="{{schoolInfo}}" class='arrow' src='../../images/arrow.png'></image>
+      </view>
+    </view>
   </view>
-  <view class='arrow-view'>
-    <image wx:if="{{schoolInfo}}" class='arrow' src='../../images/arrow.png'></image>
-  </view>
-</view>
-
-</view>
 
   <block wx:if="{{homeworks.length > 0}}">
     <view class='card-view' >
@@ -88,19 +86,19 @@
     </view>
   </block>
 
-  <!--圆形点击框  -->
-    <cover-view wx:if="{{hideModal}}" class="right-flex-arrange-view" data-type="arrange" bindtap='navigateTo'>
-      发布作业
-    </cover-view>
-  
-    <cover-view wx:if="{{hideModal}}" class="right-flex-record-view" data-type="history" bindtap='navigateTo'>
-      发布记录
-    </cover-view>
+  <!-- 悬浮按钮  -->
+  <cover-view wx:if="{{hideModal}}" class="right-flex-arrange-view" data-type="arrange" bindtap='navigateTo'>
+    发布作业
+  </cover-view>
 
-    <cover-view wx:if="{{hideModal}}" class="left-flex-score-view">
-      <cover-image class="like-image {{loveScore > 0 ? 'like-show' : 'like-hiden'}}" src='../../images/like.png'></cover-image>
-      <cover-view > {{ loveScore == 0 ? '发布1次得10❤️，获得100❤️可兑换精美礼品哦~' : loveScore }} </cover-view> 
-    </cover-view>
+  <cover-view wx:if="{{hideModal}}" class="right-flex-record-view" data-type="history" bindtap='navigateTo'>
+    发布记录
+  </cover-view>
+
+  <cover-view wx:if="{{hideModal}}" class="left-flex-score-view">
+    <cover-image class="like-image {{loveScore > 0 ? 'like-show' : 'like-hiden'}}" src='../../images/like.png'></cover-image>
+    <cover-view > {{ loveScore == 0 ? '发布1次得10❤️，获得100❤️可兑换精美礼品哦~' : loveScore }} </cover-view> 
+  </cover-view>
 
   <view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
     <view class="modals-cancel" bindtap="hideModal"></view>
@@ -115,5 +113,5 @@
       </view>
     
     </view>
-</view>
+  </view>
 </view>
