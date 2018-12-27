@@ -56,6 +56,7 @@ Page({
     wx.showLoading({
       'title': '加载中...'
     })
+    this.scrollTabs();
     this.getHomeworks(1)
   },
   //判断当前滚动超过一屏时，设置tab标题滚动条。

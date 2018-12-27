@@ -2,7 +2,9 @@ page {
   height: 100%;
   background: rgb(248, 248, 248);
 }
+
 .bg-view {
+  padding-top: 40px;
   height: 100%;
   position: relative;
 }
