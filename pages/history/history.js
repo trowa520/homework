@@ -6,19 +6,71 @@ import { String } from '../../utils/util.js';
 Page({
   data: {
     homeworks: [],
-    is_image: 0,
-    is_video: 0,
-    images: [],
-    videos: [],
     schools: [],
     schoolInfo: {},
-    offsetX:0,
 
     currentPage: 1, // 当前页数
     totalPage: 1, // 总页数
+
+    currentTab: 0, //预设当前项的值
+    scrollLeft: 0, //tab标题的滚动条位置
+  },
+  // 滚动切换标签样式
+  switchTab: function (e) {
+    var that = this
+    that.setData({
+      currentTab: e.detail.current
+    });
+    that.scrollTabs();
+    var schools = that.data.schools
+    schools.forEach((item, index) => {
+      if (e.detail.current == index) {
+        that.setData({
+          schoolInfo: item,
+          currentPage: 1
+        })
+        wx.setStorage({
+          key: 'schoolInfo',
+          data: item
+        })
+        wx.showLoading({
+          'title': '加载中...'
+        })
+        that.getHomeworks(1)
+      }
+    })
+  },
+  // 点击标题切换当前页时改变样式
+  swichNav: function (e) {
+    var currentTab = e.currentTarget.dataset.current;
+    let schoolInfo = e.currentTarget.dataset.schoolinfo
+    this.setData({
+      currentTab: currentTab,
+      schoolInfo: schoolInfo,
+      currentPage: 1
+    })
+    wx.setStorage({
+      key: 'schoolInfo',
+      data: schoolInfo
+    })
+    wx.showLoading({
+      'title': '加载中...'
+    })
+    this.getHomeworks(1)
+  },
+  //判断当前滚动超过一屏时，设置tab标题滚动条。
+  scrollTabs: function () {
+    if (this.data.currentTab > 2) {
+      this.setData({
+        scrollLeft: 300
+      })
+    } else {
+      this.setData({
+        scrollLeft: 0
+      })
+    }
   },
   onLoad: function () {
-    
   },
   onShow: function () {
     var that = this
@@ -32,7 +84,6 @@ Page({
         that.getHomeworks(1)
       },
     })
-   
     wx.getStorage({
       key: 'schools',
       success: function(res) {
@@ -42,9 +93,12 @@ Page({
         })
         res.data.forEach((item, index) => {
           if (item.id == that.data.schoolInfo.id) {
+            that.setData({
+              currentTab: index
+            })
             let offsetX = 60 * index 
             that.setData({
-              offsetX: offsetX
+              scrollLeft: offsetX
             })
           }
         })
@@ -132,6 +186,7 @@ Page({
     })
     that.getHomeworks(1)
   },
+  // 上拉加载
   onReachBottom: function () {
     var that = this;
     // 显示加载图标  
@@ -148,21 +203,23 @@ Page({
       })
     }
   },
+  // 改变学校
   changeSchool:function(e) {
     let schoolInfo = e.currentTarget.dataset.schoolinfo
     this.setData({
-      schoolInfo: schoolInfo
+      schoolInfo: schoolInfo,
+      currentPage: 1
     })
     wx.setStorage({
       key: 'schoolInfo',
-      data: schoolInfo,
-      currentPage: 1
+      data: schoolInfo
     })
     wx.showLoading({
       'title': '加载中...'
     })
     this.getHomeworks(1)
   },
+  // 图片预览
   showImages: function (e) {
     console.log('展示图片')
     var that = this;
@@ -174,7 +231,7 @@ Page({
     })
     return
   },
-  // 放大视频播放
+  // 视频预览
   bindVideoScreenChange: function (e) {
     var status = e.detail.fullScreen;
     console.log(status)

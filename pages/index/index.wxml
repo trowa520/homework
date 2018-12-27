@@ -66,15 +66,8 @@
                     <view >
                       <label class='footer-subject-label'>{{homework.subject}}作业</label>
                     </view>
-                    <view class='footer-image-bg-view'>
-
-                      <!-- <view class='footer-image-view'>
-                        <image class='footer-image'  src='../../images/video.png'></image>
-                      </view>
-                      <view class='footer-subject-bg-view'>
-                        <label class='footer-size-label'>{{homework.video_size}}KB</label>
-                      </view> -->
-                      <video style='height:60px;width:120px;' autoplay='false' src="{{item}}" data-index="{{index}}" bindfullscreenchange="bindVideoScreenChange" controls></video>
+                    <view class='footer-image-bg-view'>          
+                      <video style='height:60px;width:120px;' src="{{item}}" data-index="{{index}}" bindfullscreenchange="bindVideoScreenChange" controls></video>
                     </view>
                   </view>
                 </block>

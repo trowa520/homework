@@ -107,7 +107,7 @@ Page({
       }
     })
   },
-  //展示图片
+  // 图片预览
   showImg: function (e) {
     var that = this;
     wx.previewImage({
@@ -224,7 +224,7 @@ Page({
       }
     })
   },
-  // 放大视频播放
+  // 视频预览
   bindVideoScreenChange: function (e) {
     var status = e.detail.fullScreen;
     var play = {
@@ -299,7 +299,7 @@ Page({
       score: app.globalData.score
     })
   },
-
+  // 获取当前日期
   getDate: function() {
     var now = new Date();
     var year = now.getFullYear();
@@ -339,50 +339,8 @@ Page({
       }
     })
   },
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-    // var that = this
-    // let schoolInfo = that.data.schoolInfo
-    // return {
-    //   title: '客官，您的作业来了！',
-    //   path: '/pages/homework/homework?date=' + this.data.date + '&id=' + schoolInfo.id + '&school_id=' + schoolInfo.school_id + '&school=' + schoolInfo.school + '&grade_id=' + schoolInfo.grade_id + '&grade=' + schoolInfo.grade + '&class_id=' + schoolInfo.class_id + '&virtual_class=' + schoolInfo.virtual_class,
-    //   success: function (res) {
-    //     var shareTickets = res.shareTickets;
-    //     if (shareTickets.length == 0) {
-    //       return false;
-    //     }
-    //     wx.getShareInfo({
-    //       shareTicket: shareTickets[0],
-    //       success: function (res) {
-    //         var encryptedData = res.encryptedData;
-    //         var iv = res.iv;
-    //         wx.request({
-    //           url:  app.globalData.host + '/encrypted-data',
-    //           data: {
-    //             session_key: app.globalData.sessionKey,
-    //             encrypted_data: res.encryptedData,
-    //             iv: res.iv,
-    //             program: 'homework'
-    //           },
-    //           success:function(res) {
-    //             console.log(res)
-    //           }
-    //         })
-    //         wx.reLaunch({
-    //           url: '/pages/index/index',
-    //         })
-    //       }
-    //     })
-    //   },
-    //   fail: function (res) {
-    //     // 转发失败
-    //   }
-    // }
-  },
   // 选择科目
-  serviceValChange: function (e) {
+  chooseSubject: function (e) {
     var allSubjects = this.data.allSubjects;
     var checkArr = e.detail.value;
     for (var i = 0; i < allSubjects.length; i++) {
@@ -514,6 +472,7 @@ Page({
       })
     })
   },
+  // 获取作业内容输入框内容
   contentChange:function(e) {
     this.setData({
       content: e.detail.value || ''
@@ -534,7 +493,6 @@ Page({
       that.fadeIn();//调用显示动画
     }, 200)
   },
-
   // 隐藏遮罩层
   hideModal: function () {
     var that = this;

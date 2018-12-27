@@ -1,16 +1,7 @@
-// pages/homework/homework.js
 const app = getApp()
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     homeworks: [],
-    is_image: 0,
-    is_video: 0,
-    images: [],
-    videos: [],
     schoolInfo:{},
     date:''
   },
@@ -43,6 +34,7 @@ Page({
       withShareTicket: true
     })
   },
+  // 绑定学校
   bindSchool:function(options){
     wx.request({
       url: app.globalData.host + '/api/bind-school',
@@ -70,7 +62,6 @@ Page({
    */
   onShow: function () {
     var that = this
-
     wx.getStorage({
       key: 'schoolInfo',
       success: function(res) {

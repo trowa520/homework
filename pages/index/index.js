@@ -8,10 +8,7 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     homeworks: [],
-    is_image: 0,
-    is_video: 0,
-    images: [],
-    videos: [],
+
     schools:[],
     schoolInfo:false,
     isSelect: 'none',
@@ -270,19 +267,7 @@ Page({
         break
     }
   },
-  // 展示学校列表
-  showSchools:function(e) {
-    if (this.data.isSelect == 'none') {
-      this.setData({
-        isSelect: 'flex'
-      })
-    } else {
-      this.setData({
-        isSelect: 'none'
-      })
-    }
-    
-  },
+  
   // 选择学校
   selectSchool:function(e) {
     var that = this
@@ -316,6 +301,7 @@ Page({
     })
     that.getHomeworks(1)
   },
+  // 上拉加载
   onReachBottom: function() {
     var that = this;
     // 显示加载图标  
@@ -333,6 +319,7 @@ Page({
       })
     }
   },
+  // 图片预览
   showImages:function(e) {
     console.log('展示图片')
     var that = this;
@@ -344,7 +331,7 @@ Page({
     })
     return
   },
-  // 放大视频播放
+  // 视频预览
   bindVideoScreenChange: function (e) {
     var status = e.detail.fullScreen;
     console.log(status)

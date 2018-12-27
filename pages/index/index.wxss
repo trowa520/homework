@@ -102,9 +102,35 @@ page {
 }
 
 /*模态框*/
-.modals{position:fixed; z-index: 999; margin-top: 40px;top:0; left: 0; right:0; bottom: 0;}
-.modals-cancel{position:absolute; z-index:1000; margin-top: 0px;top:0; left: 0; right:0; bottom: 0; background-color: rgba(0,0,0,.5);}
-.bottom-dialog-body{position:absolute; z-index:10001; top:0; left:0; right:0; padding:30rpx; background-color: white;}
+.modals{
+  position:fixed; 
+  z-index: 999; 
+  margin-top: 40px;
+  top:0; 
+  left: 0; 
+  right:0; 
+  bottom: 0;
+}
+
+.modals-cancel{
+  position:absolute; 
+  z-index:1000; 
+  margin-top: 0px;
+  top:0; 
+  left: 0; 
+  right:0; 
+  bottom: 0; 
+  background-color: rgba(0,0,0,.5);
+}
+.bottom-dialog-body{
+  position:absolute; 
+  z-index:10001; 
+  top:0; 
+  left:0; 
+  right:0; 
+  padding:30rpx; 
+  background-color: white;
+}
 /*动画前初始位置*/
 .bottom-pos{
   transform:translateY(-200%);

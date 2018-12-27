@@ -22,10 +22,10 @@ App({
     var scenes = [1007, 1008];
     var scene = scenes.indexOf(res.scene)
     if (scene == -1) {
-      wx.showToast({
-        title: '通过分享卡片进来',
-        icon: 'none'
-      })
+      // wx.showToast({
+      //   title: '通过分享卡片进来',
+      //   icon: 'none'
+      // })
     }
     // 获取用户信息
     wx.getSetting({

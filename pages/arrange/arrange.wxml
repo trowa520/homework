@@ -16,7 +16,7 @@
       <span class='subject-label'>学科</span>
     </view>
 
-     <radio-group bindchange="serviceValChange">  
+     <radio-group bindchange="chooseSubject">  
         <view class="service_selection flex">  
           <block wx:for="{{allSubjects}}" wx:key="{{allSubjects.value}}">  
             <label class="checkbox {{item.checked?'is_checked':''}}">  
@@ -44,7 +44,6 @@
   </view>
   <view class='content-view'>
     <label class='content-label'>作业内容</label>
-    <!-- <i-input value="{{ value3 }}" require class='detail' type="textarea" bind:change="contentChange"  placeholder="填写或粘贴作业内容" minlength="5" /> -->
     <textarea class='content-input' type='textarea' maxlength='-1' auto-height='true' bindinput="contentChange" placeholder='填写或粘贴作业内容'></textarea>
     <view class='ui_uploader_cell'>
       <!-- 图片 -->
