@@ -101,7 +101,7 @@ page {
   background: white;
 }
 .ui_uploader_cell {
-  margin-top: 50px;
+  margin-top: 170rpx;
   height: 100%;
   width: 100%;
 }
@@ -169,6 +169,8 @@ page {
 }
 
 .content-input {
+  position: fixed;
+  height: 120rpx;
   margin-top: 15px;
   margin-left: 15px;
   font-size: 26rpx;

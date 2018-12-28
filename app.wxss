@@ -11,57 +11,56 @@
 }
 /* 右边 发布作业 悬浮按钮 */
 .right-flex-arrange-view {
-    height: 80rpx;
-    width: 250rpx;
-    background-color: rgb(2, 209, 113);
-    border-top-left-radius: 40rpx;
-    border-bottom-left-radius: 40rpx;
-    position: fixed;
-    bottom: 125px;
-    right: -40rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28rpx;
-    text-align: center;
-    color: rgb(255, 255, 255);
-    line-height: 80rpx;
-    
-}
-/* 右边 发布记录 悬浮按钮 */
-.right-flex-record-view {
-    height: 80rpx;
-    width: 250rpx;
-    background: rgb(245, 245, 245);
-    border-top-left-radius: 40rpx;
-    border-bottom-left-radius: 40rpx;
-    position: fixed;
-    bottom: 70px;
-    right: -40rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28rpx;
-    text-align: center;
-    color: rgb(2, 209, 113);
-    line-height: 80rpx;
-    /* box-shadow: 4rpx 4rpx 26rpx rgba(0, 0, 0, 0.1); */
+  height: 80rpx;
+  width: 250rpx;
+  background-color: rgb(2, 209, 113);
+  border-top-left-radius: 40rpx;
+  border-bottom-left-radius: 40rpx;
+  position: fixed;
+  bottom: 125px;
+  right: -40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  line-height: 80rpx;
 }
 /* 左边 爱心积分 悬浮按钮 */
 .left-flex-score-view {
-    height: 80rpx;
-    padding: 0 20rpx;
-    background: rgb(245, 245, 245);
-    min-width: 150rpx;
-    border-radius: 40rpx;
-    position: fixed;
-    bottom: 70px;
-    left: -40rpx;
-    display: flex;
-    align-items: center;
-    font-size: 24rpx;
-    color: rgb(51, 51, 51);
-    line-height: 80rpx;
+  height: 80rpx;
+  padding: 0 20rpx;
+  background: rgb(245, 245, 245);
+  min-width: 150rpx;
+  border-radius: 40rpx;
+  position: fixed;
+  bottom: 70px;
+  left: -40rpx;
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: rgb(51, 51, 51);
+  line-height: 80rpx;
+}
+/* 右边 发布记录 悬浮按钮 */
+.right-flex-record-view {
+  height: 80rpx;
+  width: 250rpx;
+  background: rgb(245, 245, 245);
+  border-top-left-radius: 40rpx;
+  border-bottom-left-radius: 40rpx;
+  position: fixed;
+  bottom: 70px;
+  right: -40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  text-align: center;
+  color: rgb(2, 209, 113);
+  line-height: 80rpx;
+  /* box-shadow: 4rpx 4rpx 26rpx rgba(0, 0, 0, 0.1); */
 }
 
 .score-label {

@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "作业看看",
+  "navigationBarTitleText": "作业详情",
   "usingComponents": {
     "i-input": "../../dist/input/index",
     "i-button": "../../dist/button/index",

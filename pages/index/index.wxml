@@ -106,7 +106,7 @@
   发布作业
 </cover-view>
 
-<cover-view wx:if="{{showFlex}}" class="left-flex-score-view">
+<cover-view wx:if="{{showFlex}}" class="left-flex-score-view" data-type="score" bindtap='navigateTo'>
   <cover-image class="like-image {{loveScore > 0 ? 'like-show' : 'like-hiden'}}" src='../../images/like.png'>
   </cover-image>
   <cover-view class='score-label'> 

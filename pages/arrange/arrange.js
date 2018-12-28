@@ -467,10 +467,9 @@ Page({
               date: e.data.data.date
             })
             wx.navigateTo({
-              url: '/pages/homework/homework?date=' + e.data.data.date,
+              url: '/pages/homework/homework?date=' + e.data.data.date + '&&arrange=1',
             })
           }
-
         },
         fail: function(e) {
           console.log(e)

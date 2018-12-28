@@ -5,7 +5,8 @@ Page({
     schoolInfo:{},
     date:'',
     homework_id: 0,
-    homework:{}
+    homework:{},
+    arrange:0
   },
   /**
    * 生命周期函数--监听页面加载
@@ -14,6 +15,11 @@ Page({
     var that = this
     let date = options.date
     that.data.date = date
+    if(options.arrange) {
+      that.setData({
+        arrange: 1
+      })
+    }
     if (options.homework_id > 0) {
       that.setData({
         homework_id: options.homework_id
@@ -44,6 +50,13 @@ Page({
     wx.showShareMenu({
       withShareTicket: true
     })
+  },
+  onUnload: function() {
+    if(this.data.arrange == 1) {
+      wx.reLaunch({
+        url: '/pages/index/index',
+      })
+    }
   },
   // 绑定学校
   bindSchool:function(options){
@@ -240,26 +253,34 @@ Page({
   },
   deleteHomework:function(e) {
     var that = this
-    wx.showLoading({
-      'title': '加载中...'
-    })
-    wx.request({
-      url: app.globalData.host + '/api/homework',
-      method:"DELETE",
-      header: {
-        'Authorization' : app.globalData.token
-      },
-      data: {
-        id: that.data.homework_id
-      },
-      success:function(res) {
-        wx.hideLoading()
-        console.log(res)
-        wx.navigateBack()
-      },
-      fail:function(res) {
-        wx.hideLoading()
-        console.log(res)
+    wx.showModal({
+      title: '提示',
+      content: '您确认删除嘛？删除后不可恢复！',
+      success: function (res) {
+        if (res.confirm) {
+          wx.showLoading({
+            'title': '加载中...'
+          })
+          wx.request({
+            url: app.globalData.host + '/api/homework',
+            method:"DELETE",
+            header: {
+              'Authorization' : app.globalData.token
+            },
+            data: {
+              id: that.data.homework_id
+            },
+            success:function(res) {
+              wx.hideLoading()
+              console.log(res)
+              wx.navigateBack()
+            },
+            fail:function(res) {
+              wx.hideLoading()
+              console.log(res)
+            }
+          })
+        }
       }
     })
   }

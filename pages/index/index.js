@@ -22,6 +22,7 @@ Page({
 
     currentPage: 1, // 当前页数
     totalPage:1, // 总页数
+
   },
   onLoad: function () {
     if (app.globalData.userInfo) {
@@ -201,9 +202,11 @@ Page({
         'Authorization': app.globalData.token
       },
       success:function(res) {
-        that.setData({
-          loveScore: res.data.data.score
-        })
+        setTimeout(function(){
+          that.setData({
+            loveScore: res.data.data.score
+          })
+        },2000)
         app.globalData.times = res.data.data.times
         app.globalData.score = res.data.data.score
       }
@@ -263,6 +266,14 @@ Page({
         wx.navigateTo({
           url: '/pages/history/history',
         })
+        break
+      case 'score':
+        let score = that.data.loveScore
+        console.log(score)
+        that.setData({
+          loveScore: 0,
+        })
+        that.getLoveScore()
         break
       default :
         wx.navigateTo({

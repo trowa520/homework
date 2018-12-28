@@ -44,7 +44,7 @@
   </view>
   <view class='content-view'>
     <label class='content-label'>作业内容</label>
-    <textarea class='content-input' type='textarea' maxlength='-1' auto-height='true' bindinput="contentChange" placeholder='填写或粘贴作业内容'></textarea>
+    <textarea class='content-input' type='textarea' fixed="true" maxlength='-1' bindinput="contentChange" placeholder='填写或粘贴作业内容'></textarea>
     <view class='ui_uploader_cell'>
       <!-- 图片 -->
       <view class='ui_uploader_item' wx:for="{{uploaderList}}" wx:key="{{index}}">
