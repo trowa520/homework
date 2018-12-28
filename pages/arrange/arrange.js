@@ -24,7 +24,7 @@ Page({
 
     date: '',
 
-    grade: '点击选择',
+    grade: '请选择',
     virtual_class: '',
 
     uploaderList: [],   // 上传图片列表
@@ -358,11 +358,17 @@ Page({
     this.subject = subject
   },
   // 编辑学校 
-  editSchool:(e)=>{
+  editSchool:function(e) {
     var school = e.currentTarget.dataset.school
-    wx.navigateBack({
-      school: school
-    })
+    if(this.data.isEdit == false) {
+      wx.navigateTo({
+        url: '/pages/school/school?school=' + school,
+      })
+    } else {
+      wx.navigateBack({
+        school: school
+      })
+    }
   },
   // 选择年级和学校
   chooseGradeAndClass: function (e) {

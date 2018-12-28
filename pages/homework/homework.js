@@ -3,7 +3,9 @@ Page({
   data: {
     homeworks: [],
     schoolInfo:{},
-    date:''
+    date:'',
+    homework_id: 0,
+    homework:{}
   },
   /**
    * 生命周期函数--监听页面加载
@@ -12,6 +14,15 @@ Page({
     var that = this
     let date = options.date
     that.data.date = date
+    if (options.homework_id > 0) {
+      that.setData({
+        homework_id: options.homework_id
+      })
+      wx.showLoading({
+        'title': '加载中...'
+      })
+      that.getHomework(options.homework_id)
+    }
     if(options.id) {
       var schoolInfo = {
         id: options.id,
@@ -74,9 +85,13 @@ Page({
         that.getHomeworks()
       },
     })
-    
   },
-
+  // onUnload:function(){
+  //   console.log(123)
+  //   wx.reLaunch({
+  //     url: '/pages/index/index',
+  //   })
+  // },
   /**
    * 用户点击右上角分享
    */
@@ -119,7 +134,39 @@ Page({
         // 转发失败
       }
     }
+  },
 
+  getHomework: function(homework_id) {
+    let that = this
+    wx.request({
+      url: app.globalData.host + '/api/homework',
+      method: 'GET',
+      data: {
+        id: homework_id
+      },
+      header: {
+        'Authorization' : app.globalData.token
+      },
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          homework: res.data.data
+        })
+        wx.hideLoading()
+        // 隐藏导航栏加载框
+        wx.hideNavigationBarLoading();
+        // 停止下拉动作
+        wx.stopPullDownRefresh();
+      },
+      fail: function (res) {
+        wx.hideLoading()
+        console.log(res)
+        // 隐藏导航栏加载框
+        wx.hideNavigationBarLoading();
+        // 停止下拉动作
+        wx.stopPullDownRefresh();
+      }
+    })
   },
   // 获取作业列表
   getHomeworks: function (e) {
@@ -191,4 +238,29 @@ Page({
     }
     this.setData(play);
   },
+  deleteHomework:function(e) {
+    var that = this
+    wx.showLoading({
+      'title': '加载中...'
+    })
+    wx.request({
+      url: app.globalData.host + '/api/homework',
+      method:"DELETE",
+      header: {
+        'Authorization' : app.globalData.token
+      },
+      data: {
+        id: that.data.homework_id
+      },
+      success:function(res) {
+        wx.hideLoading()
+        console.log(res)
+        wx.navigateBack()
+      },
+      fail:function(res) {
+        wx.hideLoading()
+        console.log(res)
+      }
+    })
+  }
 })

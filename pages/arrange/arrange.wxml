@@ -7,7 +7,7 @@
     <view class='schoo-name-view'>
        {{school}}
     </view>
-    <view wx:if="{{isEdit}}" class='edit-school-view' data-school="{{school}}" bindtap="editSchool">
+    <view class='edit-school-view' data-school="{{school}}" bindtap="editSchool">
       修改
     </view>
   </view>
@@ -37,7 +37,7 @@
         </view>
       </picker>
       <view class='right-view'>
-        <image style='display:inline-block;width:10px;height:20px;' src='../../images/right.png'></image>
+        <image style='display:inline-block;width:14rpx;height:24rpx;' src='../../images/right.png'></image>
       </view>
     </view>
   
@@ -63,50 +63,74 @@
       </view>
     </view>
   </view>
-  <button class='save-button' bindtap='arrangeHomework'>
-    保 存
-  </button>
+  <view class='bottom-bg-view'>
+    <view class='save-button' bindtap='arrangeHomework'>
+      保存并发送同学
+    </view>
     <view class='award-notice-view'>
       <label>您已发送{{times}}次作业，获得{{score}}</label>
       <image style='margin-left:5px;width:12px;height:12px;' src='../../images/like.png'></image>
     </view>
+  </view>
 </view>
 
 <!-- 模态下拉框 -->
-<view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
+<!-- <view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
     <view class="modals-cancel" bindtap="hideModal"></view>
     <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
-      
       <view class='upload-main-bg-view' >
         <view class='upload-type-view'>
           <view class='upload-type-item-view' bindtap='upload'>
             <view>
                 <image class='upload-cover-view' src='../../images/circle_image.png'></image>
             </view>
-          
             <view class="upload-description-view">
               上传图片
             </view>
           </view>
-
           <view class='upload-type-item-view' bindtap='uploadVideo'>
             <view>
                 <image class='upload-cover-view' src='../../images/circle_video.png'></image>
             </view>
-          
             <view class="upload-description-view">
               上传视频
             </view>
           </view>
-
         </view>
         <view class='upload-cancel-view' bindtap='hideModal'>
           <image style='height:30rpx;width:30rpx;' src='../../images/close.png'></image>
         </view>
       </view>
-    
     </view>
-</view>
+</view> -->
+<cover-view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
+    <cover-view class="modals-cancel" bindtap="hideModal"></cover-view>
+    <cover-view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
+      <cover-view class='upload-main-bg-view' >
+        <cover-view class='upload-type-view'>
+          <cover-view class='upload-type-item-view' bindtap='upload'>
+            <cover-view>
+                <cover-image class='upload-cover-view' src='../../images/circle_image.png'></cover-image>
+            </cover-view>
+            <cover-view class="upload-description-view">
+              上传图片
+            </cover-view>
+          </cover-view>
+          <cover-view class='upload-type-item-view' bindtap='uploadVideo'>
+            <cover-view>
+                <cover-image class='upload-cover-view' src='../../images/circle_video.png'></cover-image>
+            </cover-view>
+            <cover-view class="upload-description-view">
+              上传视频
+            </cover-view>
+          </cover-view>
+        </cover-view>
+        <cover-view class='upload-cancel-view' bindtap='hideModal'>
+          <cover-image style='height:30rpx;width:30rpx;' src='../../images/close.png'></cover-image>
+        </cover-view>
+      </cover-view>
+    </cover-view>
+</cover-view>
 
 
 

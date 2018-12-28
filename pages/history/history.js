@@ -119,7 +119,7 @@ Page({
       wx.stopPullDownRefresh();
     } else {
       wx.request({
-        url: app.globalData.host + '/api/homeworks',
+        url: app.globalData.host + '/api/homework-records',
         method: 'GET',
         data: {
           school: that.data.schoolInfo.school,
@@ -206,6 +206,17 @@ Page({
         })
       }
     }
+  },
+  // 点击卡片 查看详情 事件
+  clickDetail: function (e) {
+    var that = this
+    that.setData({
+      hideModal: true,
+      showFlex: true
+    })
+    wx.navigateTo({
+      url: '/pages/homework/homework?date=' + e.currentTarget.dataset.date + '&homework_id=' + e.currentTarget.dataset.homework_id,
+    })
   },
   // 改变学校
   changeSchool:function(e) {

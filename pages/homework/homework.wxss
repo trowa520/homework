@@ -1,7 +1,7 @@
 /* pages/homework/homework.wxss */
 page {
   height: 100%;
-  background: rgb(248, 248, 248);
+  /* background: rgb(248, 248, 248); */
 }
 .bg-view {
   height: 100%;
@@ -44,4 +44,39 @@ page {
 
 .content-view {
   margin: 0px 15px;
+}
+
+.bottom-bg-view {
+  margin-top: 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+.save-button {
+  width: 690rpx;
+  background: rgb(245, 245, 245);
+  color: rgb(2, 209 ,113);
+  border-radius: 10rpx;
+  font-weight: bold;
+  font-size: 15px;
+  height: 90rpx;
+  line-height: 90rpx;
+}
+.save-button::after{ 
+  border: none; 
+}
+.delete-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20rpx;
+  width: 690rpx;
+  height: 90rpx;
+  text-align: center;
+  color: red;
+  background: rgb(245, 245, 245);
+  border-radius: 10rpx;
+  font-size: 15px;
 }

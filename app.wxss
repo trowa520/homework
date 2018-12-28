@@ -26,13 +26,13 @@
     text-align: center;
     color: rgb(255, 255, 255);
     line-height: 80rpx;
-    /* box-shadow: 0rpx -3rpx rgb(240, 240, 240) inset; */
+    
 }
 /* 右边 发布记录 悬浮按钮 */
 .right-flex-record-view {
     height: 80rpx;
     width: 250rpx;
-    background: white;
+    background: rgb(245, 245, 245);
     border-top-left-radius: 40rpx;
     border-bottom-left-radius: 40rpx;
     position: fixed;
@@ -45,12 +45,13 @@
     text-align: center;
     color: rgb(2, 209, 113);
     line-height: 80rpx;
+    /* box-shadow: 4rpx 4rpx 26rpx rgba(0, 0, 0, 0.1); */
 }
 /* 左边 爱心积分 悬浮按钮 */
 .left-flex-score-view {
     height: 80rpx;
     padding: 0 20rpx;
-    background: white;
+    background: rgb(245, 245, 245);
     min-width: 150rpx;
     border-radius: 40rpx;
     position: fixed;
@@ -62,6 +63,11 @@
     color: rgb(51, 51, 51);
     line-height: 80rpx;
 }
+
+.score-label {
+  min-width: 25px;
+}
+
 /* 作业内容 - 学科 */
 
 .subject-content-bg-view {

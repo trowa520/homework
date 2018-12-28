@@ -16,6 +16,8 @@ Page({
     hideModal: true, //模态框的状态  true-隐藏  false-显示
     animationData: {},//
 
+    showFlex: true,   // 显示悬浮按钮
+
     loveScore: 0,
 
     currentPage: 1, // 当前页数
@@ -220,10 +222,11 @@ Page({
   clickDetail:function(e) {
     var that = this
     that.setData({
-      hideModal: true
+      hideModal: true,
+      showFlex: true
     })
     wx.navigateTo({
-      url: '../../../../homework/homework?date=' + e.currentTarget.dataset.date,
+      url: '/pages/homework/homework?date=' + e.currentTarget.dataset.date,
     })
   },
   // 导航到
@@ -231,7 +234,8 @@ Page({
     var type = e.currentTarget.dataset.type
     var that = this
     that.setData({
-      hideModal: true
+      hideModal: true,
+      showFlex: true
     })
     wx.getStorage({
       key: 'schoolInfo',
@@ -272,7 +276,8 @@ Page({
   selectSchool:function(e) {
     var that = this
     that.setData({
-      hideModal: true
+      hideModal: true,
+      showFlex: true
     })
     let schoolInfo = e.currentTarget.dataset.schoolinfo
     this.setData({
@@ -297,6 +302,7 @@ Page({
     })
     that.setData({
       hideModal: true,
+      showFlex: true,
       currentPage: 1
     })
     that.getHomeworks(1)
@@ -337,7 +343,15 @@ Page({
   // 视频预览
   bindVideoScreenChange: function (e) {
     var status = e.detail.fullScreen;
-    console.log(status)
+    if(this.data.showFlex == true) {
+      this.setData({
+        showFlex: false
+      })
+    }else [
+      this.setData({
+        showFlex: true
+      })
+    ]
     var play = {
       playVideo: false
     }
@@ -351,10 +365,8 @@ Page({
   showOrhide:function() {
     var that = this
     if(this.data.hideModal == false) {
-      that.data.hideModal = true
       that.hideModal()
     } else {
-      that.data.hideModal = false
       that.showModal()
     }
   },
@@ -362,10 +374,11 @@ Page({
   showModal: function () {
     var that = this;
     that.setData({
-      hideModal: false
+      hideModal: false,
+      showFlex: false
     })
     var animation = wx.createAnimation({
-      duration: 200,//动画的持续时间 默认400ms   数值越大，动画越慢   数值越小，动画越快
+      duration: 400,//动画的持续时间 默认400ms   数值越大，动画越慢   数值越小，动画越快
       timingFunction: 'ease',//动画的效果 默认值是linear
     })
     this.animation = animation
@@ -385,7 +398,8 @@ Page({
     that.fadeDown();//调用隐藏动画   
     setTimeout(function () {
       that.setData({
-        hideModal: true
+        hideModal: true,
+        showFlex: true
       })
     }, 200)//先执行下滑动画，再隐藏模块
   },
@@ -397,9 +411,9 @@ Page({
     })
   },
   fadeDown: function () {
-    this.animation.translateY(-800).step()
+    this.animation.translateY(-100).step()
     this.setData({
       animationData: this.animation.export(),
     })
-  },
+  }
 })

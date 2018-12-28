@@ -160,34 +160,12 @@ page {
   display: inline-block;
 }
 
-.save-button {
-  margin: 0px 15px;
-  background: rgb(2, 209, 113);
-  height: 50px;
-  text-align: center;
-  color: white;
-  display: flex;
-  margin-top: 30px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  font-size: 15px;
-}
-
 .pick-button {
   padding:5px 10px;
   font-size:26rpx;
-  color:rgb(2, 209, 113);
+  color:rgb(178, 178, 178);
   text-align:right;
   width:200px;
-}
-
-.award-notice-view {
-  line-height: 20px;
-  margin-top: 10px;
-  color: rgb(192, 192, 192);
-  font-size: 15px;
-  text-align: center;
 }
 
 .content-input {
@@ -244,3 +222,30 @@ page {
   color: rgb(102, 102, 102);
 }
 
+.bottom-bg-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.save-button {
+  width: 690rpx;
+  background: rgb(2, 209, 113);
+  height: 90rpx;
+  text-align: center;
+  color: white;
+  display: flex;
+  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.award-notice-view {
+  line-height: 20px;
+  margin-top: 10px;
+  color: rgb(192, 192, 192);
+  font-size: 15px;
+  text-align: center;
+}

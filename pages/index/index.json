@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "作业清单",
+  "navigationBarTitleText": "作业看看",
   "usingComponents": {
     "i-card": "../../dist/card/index"
   },

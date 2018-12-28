@@ -85,22 +85,9 @@
       </view>
     </view>
   </block>
-
-  <!-- 悬浮按钮  -->
-  <cover-view wx:if="{{hideModal}}" class="right-flex-arrange-view" data-type="arrange" bindtap='navigateTo'>
-    发布作业
-  </cover-view>
-
-  <cover-view wx:if="{{hideModal}}" class="right-flex-record-view" data-type="history" bindtap='navigateTo'>
-    发布记录
-  </cover-view>
-
-  <cover-view wx:if="{{hideModal}}" class="left-flex-score-view">
-    <cover-image class="like-image {{loveScore > 0 ? 'like-show' : 'like-hiden'}}" src='../../images/like.png'></cover-image>
-    <cover-view > {{ loveScore == 0 ? '发布1次得10❤️，获得100❤️可兑换精美礼品哦~' : loveScore }} </cover-view> 
-  </cover-view>
-
-  <view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
+  
+</view>
+  <!-- <view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
     <view class="modals-cancel" bindtap="hideModal"></view>
     <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
       
@@ -113,5 +100,40 @@
       </view>
     
     </view>
-  </view>
-</view>
+  </view> -->
+<!-- 悬浮按钮  -->
+<cover-view wx:if="{{showFlex}}" class="right-flex-arrange-view" data-type="arrange" bindtap='navigateTo'>
+  发布作业
+</cover-view>
+
+<cover-view wx:if="{{showFlex}}" class="left-flex-score-view">
+  <cover-image class="like-image {{loveScore > 0 ? 'like-show' : 'like-hiden'}}" src='../../images/like.png'>
+  </cover-image>
+  <cover-view class='score-label'> 
+    {{ loveScore == 0 ? '发布1次得10❤️，获得100❤️可兑换精美礼品哦~' : loveScore }} 
+  </cover-view> 
+</cover-view>
+
+<cover-view wx:if="{{showFlex}}" class="right-flex-record-view" data-type="history" bindtap='navigateTo'>
+  发布记录
+</cover-view>
+
+<!-- 模态框 -->
+<cover-view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
+  <cover-view class="modals-cancel" bindtap="hideModal">
+  </cover-view>
+  <cover-view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
+    
+    <cover-view class='modal-item-view'>
+      <block wx:for="{{schools}}" wx:item="{{item}}" wx:key >
+        <cover-view class="school-cell-view && {{ (schoolInfo.school_id == item.school_id && schoolInfo.grade_id == item.grade_id && schoolInfo.class_id == item.class_id ) ? 'choose-view' : ''}}" data-schoolinfo="{{item}}" bindtap='selectSchool'>
+          <cover-view class='item-view'>
+            {{item.grade}}{{item.virtual_class}}
+          </cover-view>
+        </cover-view>
+      </block>
+    </cover-view>
+  
+  </cover-view>
+</cover-view>
+

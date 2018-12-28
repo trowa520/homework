@@ -11,10 +11,9 @@
 <view class='bg-view'>
 <block wx:if="{{homeworks.length > 0}}">
   <view class='card-view' >
-    <block wx:if="{{homeworks}}" wx:key="" data-id=""  wx:for="{{homeworks}}" wx:for-item="lists">
-      <i-card class='card-list' title="{{lists[0].week}}" date=" ({{lists[0].date}})" extra="更新于{{lists[0].time}}" >
+    <block wx:if="{{homeworks}}" wx:key="" data-id=""  wx:for="{{homeworks}}" wx:for-item="homework">
+      <i-card class='card-list' title="{{homework.week}}" date=" ({{homework.date}})" extra="更新于{{homework.time}}" data-date="{{homework.date}}" data-homework_id="{{homework.id}}" bindtap='clickDetail'>
         <view slot="content">
-          <block wx:if="{{homeworks}}" wx:key="{{homework.id}}" data-id="{{homework.id}}"  wx:for="{{lists}}" wx:for-item="homework">
             <view class='subject-content-bg-view'>
               <view class='subject-content-view'>
                   {{homework.subject}}作业：
@@ -25,11 +24,9 @@
                 </text>
               </view>
             </view>
-          </block>
         </view>
         <view slot="media">
           <view class='media-bg-view'>
-            <block wx:if="{{homeworks}}" wx:key="{{homework.id}}" data-id="{{homework.id}}"  wx:for="{{lists}}" wx:for-item="homework">
               <view class='footer-content-view' wx:if="{{homework.images.length > 0}}" data-images="{{homework.images}}" catchtap="showImages">
                 <view>
                   <label class='footer-subject-label'>{{homework.subject}}作业</label>
@@ -53,7 +50,6 @@
                   </view>
                 </view>
               </block>
-            </block>
           </view>
         </view>
       </i-card>

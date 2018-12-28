@@ -58,13 +58,10 @@ page {
   position: absolute;
   flex-wrap: wrap;
   width: 100%;
-  padding: 10px 0px;
-  justify-content: space-around;
 }
 
 .school-cell-view {
-  opacity:1;
-  width: 150rpx;
+  min-width: 160rpx;
   height: 120rpx;
   display: flex;
   align-items: center;
@@ -72,10 +69,16 @@ page {
   border-radius: 20rpx;
   font-size: 28rpx;
   font-weight: bold;
-  margin-top: 10px;
   background: rgb(248, 248, 248);
   color: rgb(136, 136, 136);
+  margin: 10px 15px;
 }
+
+.item-view {
+  min-width: 160rpx;
+  text-align: center;
+}
+
 .choose-view {
   opacity:1;
   background: rgb(2, 209 ,113);
@@ -83,7 +86,7 @@ page {
 }
 .modal-item-view {
   display: flex;
-  justify-content: space-around;
+  /* justify-content: s; */
   flex-wrap: wrap;
 }
 
@@ -133,6 +136,6 @@ page {
 }
 /*动画前初始位置*/
 .bottom-pos{
-  transform:translateY(-200%);
+  transform:translateY(-100%);
   transition: 0.1s; 
 }
