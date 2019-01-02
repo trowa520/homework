@@ -73,20 +73,38 @@ Page({
   nextStep:function(e) {
     var that = this
     let school = that.data.school
-    if(school) {
+    let isNext = that.checkSchool(school)
+    if (isNext) {
       wx.navigateTo({
-        url: '/pages/arrange/arrange?school=' + school,
+        url: '/pages/arrange/arrange?school=' + school.trim(),
       })
-    } else [
-      wx.showToast({
-        title: '请输入学校全称',
-        icon: 'none'
-      })
-    ]
+    } 
   },
   schoolChange: function(e) {
     this.setData({
       school: e.detail.detail.value || ''
     })
+  },
+  checkSchool:function(school) {
+    if(school) {
+      var reg = new RegExp("^[A-Za-z0-9\u4e00-\u9fa5]+$");
+      var school = school.trim();
+      if (reg.test(school)) {
+        return true
+      } else {
+        wx.showToast({
+          title: '请输入中文、数字和英文！',
+          icon: 'none'
+        })
+        return false
+      }
+    } else {
+      wx.showToast({
+        title: '请输入学校全称',
+        icon: 'none'
+      })
+      return false
+    }
   }
+
 })

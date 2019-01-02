@@ -87,10 +87,10 @@
   display: flex;
 }
 .content-text {
-  line-height: 40rpx;
-  font-size: 28rpx;
-  color: rgb(51, 51, 51);
-  margin-top:-30rpx;
+  line-height:50rpx;
+  font-size:30rpx;
+  color:rgb(51, 51, 51);
+  margin-top:-40rpx;
   width: 690rpx;
   word-break: keep-all;
   word-wrap: break-word;

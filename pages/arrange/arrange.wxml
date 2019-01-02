@@ -69,7 +69,7 @@
   </view>
   <view class='bottom-bg-view'>
     <view class='save-button' bindtap='arrangeHomework'>
-      保存并发送同学
+      保 存
     </view>
     <!-- <button class='save-button' open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 保存并发送同学 </button> -->
     <view class='award-notice-view'>

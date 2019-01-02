@@ -79,7 +79,7 @@
 
 .i-card-label{
   position:relative;
-  padding:6px 16px;
+  padding:0px 16px;
   color:#495060;
   font-size:17px
 }

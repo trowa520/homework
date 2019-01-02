@@ -111,9 +111,22 @@ Page({
   onShareAppMessage: function (options) {
     var that = this
     let schoolInfo = that.data.schoolInfo
+    let titles = [
+      '客官，您的作业来了！',
+      '作业来咯！',
+      '有新的作业，请注意查收'
+    ]
+    let images = [
+      'video.png',
+      'word.png',
+      'arrow.png'
+    ]
+    // 获取 0 ~ 2 之间的随机整数
+    let index = Math.ceil(Math.random() * 3) - 1 ;
     return {
-      title: '客官，您的作业来了！',
+      title: titles[index],
       path: '/pages/homework/homework?date=' + this.data.date + '&id=' + schoolInfo.id + '&school_id=' + schoolInfo.school_id + '&school=' + schoolInfo.school + '&grade_id=' + schoolInfo.grade_id + '&grade=' + schoolInfo.grade + '&class_id=' + schoolInfo.class_id + '&virtual_class=' + schoolInfo.virtual_class,
+      imageUrl: '../../images/' + images[index],
       success: function (res) {
         var shareTickets = res.shareTickets;
         if (shareTickets.length == 0) {
