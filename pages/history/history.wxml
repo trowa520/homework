@@ -3,7 +3,7 @@
 <view class='scroll-bg-view'>
   <scroll-view scroll-x="true" scroll-y="true" class="tabs" scroll-left="{{scrollLeft}}">
     <block wx:key="" wx:item="{{item}}" wx:index="{{index}}" wx:for="{{schools}}">
-      <view class="tab-item {{currentTab==index ? 'active':''}}"  data-schoolinfo="{{item}}" data-current="{{index}}" bindtap="swichNav">
+      <view wx:if="{{item}}" class="tab-item {{currentTab==index ? 'active':''}}"  data-schoolinfo="{{item}}" data-current="{{index}}" bindtap="swichNav">
         {{item.grade}}{{item.virtual_class}}
       </view>
     </block>

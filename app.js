@@ -2,8 +2,8 @@
 let http = require('./utils/request.js')
 App({
   globalData: {
-    // host: 'https://api.leerzhi.com.cn',
-    host: 'https://dev.xiangqingou.cn',
+    host: 'https://api.leerzhi.com.cn',
+    // host: 'https://dev.xiangqingou.cn',
     // host: 'http://api.lez.com',
     userInfo: null,
     openId: '',
