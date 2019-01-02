@@ -92,6 +92,7 @@ Page({
         that.setData({
           schools: res.data
         })
+        console.log(res.data)
         res.data.forEach((item, index) => {
           if (item.id == that.data.schoolInfo.id) {
             that.setData({
@@ -147,12 +148,6 @@ Page({
             that.setData({
               homeworks: []
             })
-            setTimeout(function () {
-              wx.showToast({
-                title: '没有更多数据！',
-                icon: 'none'
-              })
-            }, 1000)
           }
           // 隐藏加载框  
           wx.hideLoading();
@@ -255,9 +250,7 @@ Page({
     }
     if (status) {
       play.playVideo = true;
-    } else {
-      this.videoContext.pause();
-    }
+    } 
     this.setData(play);
   },
 })

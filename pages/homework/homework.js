@@ -202,12 +202,6 @@ Page({
           that.setData({
             homeworks: []
           })
-          setTimeout(function () {
-            wx.showToast({
-              title: '没有更多数据！',
-              icon: 'none'
-            })
-          }, 1000)
         }
         wx.hideLoading()
         // 隐藏导航栏加载框
@@ -246,8 +240,6 @@ Page({
     }
     if (status) {
       play.playVideo = true;
-    } else {
-      this.videoContext.pause();
     }
     this.setData(play);
   },

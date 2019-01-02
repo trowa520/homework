@@ -15,6 +15,10 @@ Page({
       { name: '全学科', value: '3', checked: false },
     ],
 
+    userInfo: {},
+    hasUserInfo: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+
     hideModal: true, //模态框的状态  true-隐藏  false-显示
     animationData: {},//
 
@@ -232,9 +236,7 @@ Page({
     }
     if (status) {
       play.playVideo = true;
-    } else {
-      this.videoContext.pause();
-    }
+    } 
     this.setData(play);
   },
   // 删除视频
@@ -298,6 +300,66 @@ Page({
       times: app.globalData.times,
       score: app.globalData.score
     })
+  },
+  // 获取用户信息
+  getUserInfo: function (e) {
+    if(String.isBlank(e.detail.userInfo)) {
+      console.log("未授权")
+      wx.showToast({
+        title: '授权之后才能发送作业',
+        icon: 'none'
+      })
+    }else {
+      console.log("已授权")
+      // 获取union_id
+      wx.request({
+        url: app.globalData.host + '/encrypted-data',
+        method: "GET",
+        data: {
+          session_key: app.globalData.sessionKey,
+          encrypted_data: e.detail.encryptedData,
+          iv: e.detail.iv,
+          program: 'homework'
+        },
+        success: function (res) {
+          if(res.data.code == 0 ) {
+            var detail = JSON.parse(res.data.data)
+            
+          } else {
+            wx.showToast({
+              title: res.data.error,
+              icon: 'none'
+            })
+          }
+          
+          console.log(detail)
+        },
+        fail: function (res) {
+          console.log(1111)
+        }
+      })
+    }
+
+
+//   app.globalData.userInfo = e.detail.userInfo
+//   wx.request({
+//     url: app.globalData.host + '/encrypted-data',
+//     method: "GET",
+//     data: {
+//       session_key: app.globalData.sessionKey,
+//       encrypted_data: e.detail.encryptedData,
+//       iv: e.detail.iv,
+//       program: 'homework'
+//     },
+//     success: function (res) {
+//       var detail = JSON.parse(res.data.data)
+//       console.log(detail)
+//     },
+//     fail: function (res) {
+//       console.log(1111)
+//     }
+//   })
+    
   },
   // 获取当前日期
   getDate: function() {

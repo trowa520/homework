@@ -44,22 +44,26 @@
   </view>
   <view class='content-view'>
     <label class='content-label'>作业内容</label>
-    <textarea class='content-input' type='textarea' fixed="true" maxlength='-1' bindinput="contentChange" placeholder='填写或粘贴作业内容'></textarea>
+    <textarea class='content-input' type='textarea' auto-height maxlength='-1' bindinput="contentChange" placeholder='填写或粘贴作业内容'></textarea>
     <view class='ui_uploader_cell'>
       <!-- 图片 -->
       <view class='ui_uploader_item' wx:for="{{uploaderList}}" wx:key="{{index}}">
-          <image bindtap='showImg' style='border-radius:5px;height:100px;width:100px' data-index="{{index}}" src='{{item}}'></image>
+          <image bindtap='showImg' style='height:100px;width:100px' data-index="{{index}}" src='{{item}}'></image>
           <cover-image class='delbtn' data-index="{{index}}" data-type="image" bindtap='clearImg' src='../../images/delete.png'></cover-image>
       </view>
       <!-- 视频 -->
       <view class='ui_uploader_item' wx:for="{{videoList}}" wx:key="{{index}}">
-          <video  style='border-radius:5px;height:100px;width:100px'  bindfullscreenchange="bindVideoScreenChange" data-index="{{index}}" src='{{item.tempFilePath}}' controls></video>
+          <video  style='height:100px;width:100px' bindfullscreenchange="bindVideoScreenChange" data-index="{{index}}" src='{{item.tempFilePath}}' controls></video>
           <cover-image class='delbtn' data-index="{{index}}" data-type="video" bindtap='clearVideo' src='../../images/delete.png'></cover-image>
       </view>
       <!-- 上传 -->
-      <!-- <view class='ui_uploader' bindtap='uploadFiles' wx:if="{{showUpload}}"> -->
-      <view class='ui_uploader' bindtap='showModal' wx:if="{{showUpload}}">
-        <image style='margin-top:25px;height:50px;width:50px' src='../../images/add.png' mode='widthFix'></image>
+      <view class="ui_uploader" bindtap='showModal' wx:if="{{showUpload}}">
+      <!-- <block wx:if="{{uploaderNum > 0}}"> -->
+        <image class="uploader-bid-image" style='background:rgb(248,248,248);padding:35px;margin-top:25px;height:30px;width:30px' src="../../images/add.png" mode='widthFix'></image>
+      <!-- </block> -->
+      <!-- <block wx:else>
+        <image class="uploader-image" style='margin-top:25px;height:50px;width:50px' src="../../images/add.png" mode='widthFix'></image>
+      </block> -->
       </view>
     </view>
   </view>
@@ -67,6 +71,7 @@
     <view class='save-button' bindtap='arrangeHomework'>
       保存并发送同学
     </view>
+    <!-- <button class='save-button' open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 保存并发送同学 </button> -->
     <view class='award-notice-view'>
       <label>您已发送{{times}}次作业，获得{{score}}</label>
       <image style='margin-left:5px;width:12px;height:12px;' src='../../images/like.png'></image>
@@ -75,34 +80,6 @@
 </view>
 
 <!-- 模态下拉框 -->
-<!-- <view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
-    <view class="modals-cancel" bindtap="hideModal"></view>
-    <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
-      <view class='upload-main-bg-view' >
-        <view class='upload-type-view'>
-          <view class='upload-type-item-view' bindtap='upload'>
-            <view>
-                <image class='upload-cover-view' src='../../images/circle_image.png'></image>
-            </view>
-            <view class="upload-description-view">
-              上传图片
-            </view>
-          </view>
-          <view class='upload-type-item-view' bindtap='uploadVideo'>
-            <view>
-                <image class='upload-cover-view' src='../../images/circle_video.png'></image>
-            </view>
-            <view class="upload-description-view">
-              上传视频
-            </view>
-          </view>
-        </view>
-        <view class='upload-cancel-view' bindtap='hideModal'>
-          <image style='height:30rpx;width:30rpx;' src='../../images/close.png'></image>
-        </view>
-      </view>
-    </view>
-</view> -->
 <cover-view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
     <cover-view class="modals-cancel" bindtap="hideModal"></cover-view>
     <cover-view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">

@@ -2,40 +2,52 @@ page {
   height: 100%;
   background: rgb(248, 248, 248);
 }
+.scroll-bg-view {
+  height: 40px;
+  background: white;
+}
 
-.bg-view {
-  padding-top: 40px;
+.card-bg-view {
   height: 100%;
-  position: relative;
 }
 
 .tabs {
-  height: 80rpx;
+  height: 40px;
   width: 100%; 
   box-sizing: border-box;
   overflow: hidden;
-  line-height: 80rpx;
+  line-height: 40px;
   background: white; 
-  font-size: 16px; 
+  font-size: 32rpx; 
   white-space: nowrap;
   position: fixed;
-  top: 0; 
+  /* top: 0;  */
   left: 0; 
   z-index: 99;
 }
 .tab-item {
-  margin:0 30rpx;
+  width: 160rpx;
+  height: 40px;
+  line-height: 40px;
+  margin:0 20rpx;
   display: inline-block;
   font-size:32rpx;
-  font-weight:bold;
 }
+
+::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
 .tab-item.active{
   position: relative;
+  font-weight:bold;
 }
 .tab-item.active:after{ 
   content: "";
   display: block;
-  height: 8rpx;
+  height: 4rpx;
   background: rgb(2, 209, 113);
   position: absolute; 
   bottom: 0;

@@ -1,14 +1,17 @@
 <!-- 顶部滑动tabs -->
-<scroll-view scroll-x="true" class="tabs" scroll-left="{{scrollLeft}}">
-  <block wx:key="" wx:item="{{item}}" wx:index="{{index}}" wx:for="{{schools}}">
-    <view class="tab-item {{currentTab==index ? 'active':''}}"  data-schoolinfo="{{item}}" data-current="{{index}}" bindtap="swichNav">
-      {{item.grade}}{{item.virtual_class}}
-    </view>
-  </block>
-</scroll-view>
+<view class='bg-view'>
+<view class='scroll-bg-view'>
+  <scroll-view scroll-x="true" scroll-y="true" class="tabs" scroll-left="{{scrollLeft}}">
+    <block wx:key="" wx:item="{{item}}" wx:index="{{index}}" wx:for="{{schools}}">
+      <view class="tab-item {{currentTab==index ? 'active':''}}"  data-schoolinfo="{{item}}" data-current="{{index}}" bindtap="swichNav">
+        {{item.grade}}{{item.virtual_class}}
+      </view>
+    </block>
+  </scroll-view>
+</view>
 
 <!-- 下面视图 -->
-<view class='bg-view'>
+<view class='card-bg-view'>
 <block wx:if="{{homeworks.length > 0}}">
   <view class='card-view' >
     <block wx:if="{{homeworks}}" wx:key="" data-id=""  wx:for="{{homeworks}}" wx:for-item="homework">
@@ -46,7 +49,7 @@
                     <label class='footer-subject-label'>{{homework.subject}}作业</label>
                   </view>
                   <view class='footer-image-bg-view'>
-                    <video style='height:50px;width:120px;' src="{{item}}" data-index="{{index}}" bindfullscreenchange="bindVideoScreenChange" controls></video>
+                    <video style='height:60px;width:120px;' src="{{item}}" data-index="{{index}}" bindfullscreenchange="bindVideoScreenChange" controls></video>
                   </view>
                 </view>
               </block>
@@ -133,3 +136,4 @@
       </swiper-item>
   </swiper>
 </view> -->
+</view>

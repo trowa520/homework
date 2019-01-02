@@ -2,13 +2,12 @@
 <view class="bg-view">
 <!-- <view class='container'> 
     <view class="userinfo">
-      <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 登陆 </button> -->
+      <button open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 登陆 </button> -->
       <!-- <view wx:else>
-        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <div class="userinfo-nickname">{{userInfo.nickName}}</div> 
       </view> -->
-    <!-- </view> -->
-    <!-- <div class="userinfo-nickname">{{userInfo.nickName}}</div>  -->
-<!-- </view> -->
+    <!-- </view>
+</view> -->
   <view class='grade-bg-view'>
     <view class="grade-view" bindtap='showOrhide'>
       <view>
@@ -65,7 +64,8 @@
                       <label class='footer-subject-label'>{{homework.subject}}作业</label>
                     </view>
                     <view class='footer-image-bg-view'>          
-                      <video style='height:60px;width:120px;' src="{{item}}" data-index="{{index}}" bindfullscreenchange="bindVideoScreenChange" controls></video>
+                      <video style='height:60px;width:120px;' src="{{item}}" data-index="{{index}}" bindfullscreenchange="bindVideoScreenChange">
+                      </video>
                     </view>
                   </view>
                 </block>
@@ -85,32 +85,18 @@
       </view>
     </view>
   </block>
-  
 </view>
-  <!-- <view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
-    <view class="modals-cancel" bindtap="hideModal"></view>
-    <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
-      
-      <view class='modal-item-view'>
-        <block wx:for="{{schools}}" wx:item="{{item}}" wx:key >
-          <view class="school-cell-view && {{ (schoolInfo.school_id == item.school_id && schoolInfo.grade_id == item.grade_id && schoolInfo.class_id == item.class_id ) ? 'choose-view' : ''}}" data-schoolinfo="{{item}}" bindtap='selectSchool'>
-            <view class='item-view'>{{item.grade}}{{item.virtual_class}}</view>
-          </view>
-        </block>
-      </view>
-    
-    </view>
-  </view> -->
+
 <!-- 悬浮按钮  -->
 <cover-view wx:if="{{showFlex}}" class="right-flex-arrange-view" data-type="arrange" bindtap='navigateTo'>
   发布作业
 </cover-view>
 
 <cover-view wx:if="{{showFlex}}" class="left-flex-score-view" data-type="score" bindtap='navigateTo'>
-  <cover-image class="like-image {{loveScore > 0 ? 'like-show' : 'like-hiden'}}" src='../../images/like.png'>
+  <cover-image class="like-image {{loveScore > -1 ? 'like-show' : 'like-hiden'}}" src='../../images/like.png'>
   </cover-image>
   <cover-view class='score-label'> 
-    {{ loveScore == 0 ? '发布1次得10❤️，获得100❤️可兑换精美礼品哦~' : loveScore }} 
+    {{ loveScore == -1 ? '发布1次得10❤️，获得100❤️可兑换精美礼品哦~' : loveScore }} 
   </cover-view> 
 </cover-view>
 

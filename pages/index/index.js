@@ -18,7 +18,7 @@ Page({
 
     showFlex: true,   // 显示悬浮按钮
 
-    loveScore: 0,
+    loveScore: -1,
 
     currentPage: 1, // 当前页数
     totalPage:1, // 总页数
@@ -167,12 +167,6 @@ Page({
             that.setData({
               homeworks: []
             })
-            setTimeout(function () {
-              wx.showToast({
-                title: '没有更多数据！',
-                icon: 'none'
-              })
-            }, 1000)
           }
           // 隐藏加载框  
           wx.hideLoading();
@@ -268,10 +262,8 @@ Page({
         })
         break
       case 'score':
-        let score = that.data.loveScore
-        console.log(score)
         that.setData({
-          loveScore: 0,
+          loveScore: -1,
         })
         that.getLoveScore()
         break
@@ -368,9 +360,7 @@ Page({
     }
     if (status) {
       play.playVideo = true;
-    } else {
-      this.videoContext.pause();
-    }
+    } 
     this.setData(play);
   },
   showOrhide:function() {
@@ -422,7 +412,7 @@ Page({
     })
   },
   fadeDown: function () {
-    this.animation.translateY(-100).step()
+    this.animation.translateY(-400).step()
     this.setData({
       animationData: this.animation.export(),
     })
