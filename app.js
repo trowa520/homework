@@ -2,9 +2,7 @@
 let http = require('./utils/request.js')
 App({
   globalData: {
-    host: 'https://api.leerzhi.com.cn',
-    // host: 'https://dev.xiangqingou.cn',
-    // host: 'http://api.lez.com',
+    host: 'https://dev.xiangqingou.cn',
     userInfo: null,
     openId: '',
     sessionKey: '',
@@ -13,6 +11,7 @@ App({
     scene:'',
     times: 0,
     score:0,
+    mobile:0,
   },
   onLaunch: function (res) {
     var that = this
@@ -119,6 +118,7 @@ App({
         wx.hideLoading()
         if (res.data.code == 0) {
           that.globalData.token += res.data.access_token
+          that.globalData.mobile = res.data.mobile
           console.log(that.globalData.token)
           resolve(res.data.access_token)
         }

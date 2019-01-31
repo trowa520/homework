@@ -4,9 +4,12 @@ Page({
     homeworks: [],
     schoolInfo:{},
     date:'',
-    homework_id: 0,
+    homework_id: 0,  // 0： 首页进入  1: 发布记录进入
     homework:{},
-    arrange:0
+    subjects: '', // 已发布的学科
+    arrange:0,
+    homeworkStatus: 0,
+    images:[]
   },
   /**
    * 生命周期函数--监听页面加载
@@ -111,20 +114,40 @@ Page({
   onShareAppMessage: function (options) {
     var that = this
     let schoolInfo = that.data.schoolInfo
-    let titles = [
-      '客官，您的作业来了！',
-      '作业来咯！',
-      '有新的作业，请注意查收'
-    ]
+    // let titles = [
+    //   '孩子今天的作业完成了吗？',
+    //   '孩子的作业又双叕来了，你看了吗？',
+    //   '孩子作业早知道！',
+    //   '再忙，也不要忘记孩子的作业哦！',
+    //   '你家小主作业到了！'
+    // ]
     let images = [
-      'video.png',
-      'word.png',
-      'arrow.png'
+      '0.jpg',
+      '1.jpg',
+      '2.jpg',
+      '3.jpg',
+      '4.jpg'
     ]
-    // 获取 0 ~ 2 之间的随机整数
-    let index = Math.ceil(Math.random() * 3) - 1 ;
+    // 获取 0 ~ 4 之间的随机整数
+    let index = Math.ceil(Math.random() * 5) - 1 ;
+    var week = ''
+    for(var tempIndex in that.data.homeworks[0]) {
+      let home = that.data.homeworks[0][tempIndex]
+      var ext = ''
+      console.log(tempIndex)
+      console.log(that.data.homeworks[0].length)
+      if (tempIndex < that.data.homeworks[0].length-1) {
+        var ext = '、'
+      }
+      var week = home.week
+      that.setData({
+        subjects: that.data.subjects + home.subject + ext
+      })
+    }
+    let title = schoolInfo.school + schoolInfo.grade + schoolInfo.virtual_class + week + that.data.subjects + "作业来了"
+    console.log(title)
     return {
-      title: titles[index],
+      title: title,
       path: '/pages/homework/homework?date=' + this.data.date + '&id=' + schoolInfo.id + '&school_id=' + schoolInfo.school_id + '&school=' + schoolInfo.school + '&grade_id=' + schoolInfo.grade_id + '&grade=' + schoolInfo.grade + '&class_id=' + schoolInfo.class_id + '&virtual_class=' + schoolInfo.virtual_class,
       imageUrl: '../../images/' + images[index],
       success: function (res) {
@@ -216,6 +239,9 @@ Page({
             homeworks: []
           })
         }
+        that.setData({
+          images: res.data.images
+        })
         wx.hideLoading()
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
@@ -234,15 +260,31 @@ Page({
   },
   // 图片预览
   showImages: function (e) {
-    console.log('展示图片')
-    var that = this;
-    let images = e.currentTarget.dataset.images
-    console.log(e)
-    wx.previewImage({
-      urls: images,
-      current: images[e.currentTarget.dataset.index]
-    })
-    return
+    var that = this
+    if(that.data.homework_id == 0) {
+      var that = this
+      console.log('展示图片')
+      console.log(e.currentTarget.dataset.date)
+      console.log(e.currentTarget.dataset.index)
+      console.log(that.data.images)
+      var that = this;
+      let date = e.currentTarget.dataset.date
+      wx.previewImage({
+        urls: that.data.images[date],
+        current: that.data.images[date][e.currentTarget.dataset.index]
+      })
+      return
+    }else {
+      console.log('展示图片')
+      var that = this;
+      let images = e.currentTarget.dataset.images
+      console.log(e)
+      wx.previewImage({
+        urls: images,
+        current: images[e.currentTarget.dataset.index]
+      })
+      return
+    }
   },
   // 视频预览
   bindVideoScreenChange: function (e) {
@@ -256,11 +298,62 @@ Page({
     }
     this.setData(play);
   },
+  publishHomework:function(e) {
+    console.log('发布作业')
+    var that = this
+    let schoolInfo = that.data.schoolInfo
+    console.log(that.data.homework.subject)
+    app.login().then(() => {
+      wx.request({
+        url: app.globalData.host + '/api/homework',
+        method: "POST",
+        header: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'Authorization': app.globalData.token
+        },
+        data: {
+          homework_id: that.data.homework_id,
+          school: schoolInfo.school,
+          grade: schoolInfo.grade,
+          virtual_class: schoolInfo.virtual_class,
+          subject: that.data.homework.subject,
+          status: 1
+        },
+        success: function (e) {
+          console.log(e)
+          if (e.data.code != 0) {
+            wx.showToast({
+              title: e.data.error,
+              icon: 'none'
+            })
+          } else {
+            wx.showToast({
+              title: '发布成功！',
+              icon: 'none'
+            })
+            that.getHomework(that.data.homework_id)
+          }
+        },
+        fail: function (e) {
+          console.log(e)
+        }
+      })
+    })
+  },
+  // 编辑作业
+  editHomework:function(e) {
+    console.log(this.data.homework)
+    var homework = JSON.stringify(this.data.homework)
+    wx.navigateTo({
+      url: '/pages/arrange/arrange?homework=' + homework,
+    })
+  },
+  // 删除作业
   deleteHomework:function(e) {
     var that = this
     wx.showModal({
       title: '提示',
-      content: '您确认删除嘛？删除后不可恢复！',
+      content: '您确定删除吗？删除后不可恢复！',
       success: function (res) {
         if (res.confirm) {
           wx.showLoading({

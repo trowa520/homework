@@ -25,6 +25,14 @@ Component({
         extra: {
             type: String,
             value: ''
+        },
+        status: {
+          type: String,
+          value: ''
+        },
+        homework: {
+          type: Object,
+          value:{}
         }
     }
 });

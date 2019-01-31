@@ -32,7 +32,7 @@
     </view>
     <view class="choose-view">
       <picker mode="multiSelector" bindchange="chooseGradeAndClass"  value="{{grade_class_index}}" range="{{grade_classes}}" range-key="{{'name'}}">
-        <view class="pick-button">
+        <view class="pick-button {{virtual_class == '' ? '' : 'black'}}">
           {{grade || ''}}{{virtual_class}}
         </view>
       </picker>
@@ -44,22 +44,22 @@
   </view>
   <view class='content-view'>
     <label class='content-label'>作业内容</label>
-    <textarea class='content-input' type='textarea' auto-height maxlength='-1' bindinput="contentChange" placeholder='填写或粘贴作业内容'></textarea>
+    <textarea class='content-input' type='textarea' auto-height maxlength='-1' bindinput="contentChange" placeholder='填写或粘贴作业内容' value='{{content}}'></textarea>
     <view class='ui_uploader_cell'>
       <!-- 图片 -->
       <view class='ui_uploader_item' wx:for="{{uploaderList}}" wx:key="{{index}}">
-          <image bindtap='showImg' style='height:100px;width:100px' data-index="{{index}}" src='{{item}}'></image>
+          <image bindtap='showImg' style='height:150rpx;width:150rpx' data-index="{{index}}" src='{{item}}'></image>
           <cover-image class='delbtn' data-index="{{index}}" data-type="image" bindtap='clearImg' src='../../images/delete.png'></cover-image>
       </view>
       <!-- 视频 -->
       <view class='ui_uploader_item' wx:for="{{videoList}}" wx:key="{{index}}">
-          <video  style='height:100px;width:100px' bindfullscreenchange="bindVideoScreenChange" data-index="{{index}}" src='{{item.tempFilePath}}' controls></video>
+          <video  style='height:150rpx;width:150rpx' bindfullscreenchange="bindVideoScreenChange" data-index="{{index}}" src='{{item.tempFilePath}}' controls></video>
           <cover-image class='delbtn' data-index="{{index}}" data-type="video" bindtap='clearVideo' src='../../images/delete.png'></cover-image>
       </view>
       <!-- 上传 -->
       <view class="ui_uploader" bindtap='showModal' wx:if="{{showUpload}}">
       <!-- <block wx:if="{{uploaderNum > 0}}"> -->
-        <image class="uploader-bid-image" style='background:rgb(248,248,248);padding:35px;margin-top:25px;height:30px;width:30px' src="../../images/add.png" mode='widthFix'></image>
+        <image class="uploader-bid-image" style='background:rgb(248,248,248);padding:50rpx;height:50rpx;width:50rpx' src="../../images/add.png" mode='widthFix'></image>
       <!-- </block> -->
       <!-- <block wx:else>
         <image class="uploader-image" style='margin-top:25px;height:50px;width:50px' src="../../images/add.png" mode='widthFix'></image>
@@ -68,9 +68,20 @@
     </view>
   </view>
   <view class='bottom-bg-view'>
-    <view class='save-button' bindtap='arrangeHomework'>
-      保 存
-    </view>
+    <!-- <view class='save-send-button' data-status='1' bindtap='arrangeHomework'>
+      保存并发布
+    </view> -->
+    <button class='save-send-button' data-status='1' open-type="{{openType}}" bindgetphonenumber="arrangeHomework" bindtap='arrangeHomework'>保存并发布</button>
+    <block wx:if="{{homework_id > 0}}">
+      <button wx:if="{{homework.status == 0}}" class='save-button' open-type="{{openType}}" data-status='0' bindgetphonenumber="arrangeHomework" bindtap='arrangeHomework'>
+        保存
+      </button>
+    </block>
+    <block wx:else>
+      <button class='save-button' open-type="{{openType}}" data-status='0' bindgetphonenumber="arrangeHomework" bindtap='arrangeHomework'>
+        保存
+      </button>
+    </block>
     <!-- <button class='save-button' open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 保存并发送同学 </button> -->
     <view class='award-notice-view'>
       <label>您已发送{{times}}次作业，获得{{score}}</label>

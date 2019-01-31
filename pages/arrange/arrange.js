@@ -14,7 +14,7 @@ Page({
       { name: '英语', value: '2', checked: false },
       { name: '全学科', value: '3', checked: false },
     ],
-
+    openType: '',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -27,6 +27,7 @@ Page({
     schoolInfo:{},
 
     date: '',
+    homework_id: 0,
 
     grade: '请选择',
     virtual_class: '',
@@ -34,7 +35,6 @@ Page({
     uploaderList: [],   // 上传图片列表
     videoList: [],     // 上传视频列表
 
-    uploaderNum: 0,   // 限制上传图片视频的数量
     showUpload: true,  //是否显示 + 按钮
 
     subject:'',
@@ -43,6 +43,10 @@ Page({
     isEdit:false,
     image_ids:[], // 上传的图片id
     video_ids:[],  // 上传的视频id
+
+    picLength: 0,
+
+    homework: {},
 
     times:0,
     score:0
@@ -53,59 +57,53 @@ Page({
     that.setData({
       hideModal: true
     })
-    if (that.data.uploaderList.length >= 3) {
-      wx.showToast({
-        title: '图片最多只能上传3张！',
-        icon:'none'
-      })
-      return
-    }
     wx.chooseImage({
-      count: 1, // 默认6
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      // sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         console.log('选取图片成功')
-        wx.showLoading({
-          title: '正在上传...',
-          mask:true
-        })
-        wx.uploadFile({
-          url: app.globalData.host + "/api/file",
-          filePath: res.tempFilePaths[0],
-          name: 'file',
-          header: {
-            'content-type': 'multipart/form-data',
-            'Authorization': app.globalData.token
-          },
-          formData: {
-            file: res.tempFilePaths[0],
-            item_type: 'homework',
-            file_type: 'images'
-          },
-          success: function (res) {
-            wx.hideLoading()
-            var file = JSON.parse(res.data)
-            var image_ids = that.data.image_ids.concat(file.data.id)
-            that.setData({
-              image_ids: image_ids
-            })
-          },
-          fail: function (res) {
-            wx.hideLoading()
-            console.log(res)
-          }
-        })
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         let tempFilePaths = res.tempFilePaths;
-        let uploaderList = that.data.uploaderList.concat(tempFilePaths);
-        that.setData({
-          uploaderList: uploaderList,
-          uploaderNum: that.data.uploaderNum + 1,
-        })
-        if (that.data.uploaderNum == 6) {
-          that.setData({
-            showUpload: false
+        console.log(that.data.picLength)
+        for (var i = 0; i < tempFilePaths.length; i++) {
+          wx.showLoading({
+            title: '正在上传...',
+            mask: true
+          })
+          wx.uploadFile({
+            url: app.globalData.host + "/api/file",
+            filePath: tempFilePaths[i],
+            name: 'file',
+            header: {
+              'content-type': 'multipart/form-data',
+              'Authorization': app.globalData.token
+            },
+            formData: {
+              file: tempFilePaths[i],
+              item_type: 'homework',
+              file_type: 'images'
+            },
+            success: function (re) {
+              var file = JSON.parse(re.data)
+              var image_ids = that.data.image_ids.concat(file.data.id)
+              let uploaderList = that.data.uploaderList.concat(file.data.url + "?x-oss-process=image/resize,m_fixed,h_80,w_80");
+              that.setData({
+                image_ids: image_ids,
+                uploaderList: uploaderList,
+                picLength: that.data.picLength+1
+              })
+              console.log(that.data.uploaderList)
+              if (that.data.picLength == tempFilePaths.length) {
+                that.setData({
+                  picLength: 0
+                })
+                wx.hideLoading()
+              }
+            },
+            fail: function (res) {
+              wx.hideLoading()
+              console.log(res)
+            }
           })
         }
       }
@@ -122,11 +120,11 @@ Page({
   // 删除图片
   clearImg: function (e) {
     var that = this
-    wx.showModal({
-      title: '提示',
-      content: '您确认删除嘛？删除后不可恢复！',
-      success: function (res) {
-        if (res.confirm) {
+    // wx.showModal({
+    //   title: '提示',
+    //   content: '您确定删除吗？删除后不可恢复！',
+    //   success: function (res) {
+        // if (res.confirm) {
           var nowList = [];//新数据
           var uploaderList = that.data.uploaderList;//原数据
           for (let i = 0; i < uploaderList.length; i++) {
@@ -143,13 +141,11 @@ Page({
             }
           }
           that.setData({
-            uploaderNum: that.data.uploaderNum - 1,
             uploaderList: nowList,
-            showUpload: true
           })
-        }
-      }
-    })
+        // }
+    //   }
+    // })
   },
   // 上传视频
   uploadVideo: function(e) {
@@ -157,13 +153,6 @@ Page({
     that.setData({
       hideModal: true
     })
-    if (that.data.videoList.length >= 3) {
-      wx.showToast({
-        title: '视频最多只能上传3个！',
-        icon: 'none'
-      })
-      return
-    }
     wx.chooseVideo({
       sourceType: ['album'],
       maxDuration: 60,
@@ -171,7 +160,6 @@ Page({
       success: function (res) {
         let videoArr = that.data.videoList || [];
         let videoInfo = {};
-        let uploadNum = that.data.uploaderNum
         videoInfo['tempFilePath'] = res.tempFilePath;
         videoInfo['size'] = res.size;
         videoInfo['height'] = res.height;
@@ -211,20 +199,12 @@ Page({
           },
           fail: function (res) {
             let result = JSON.parse(res.data)
-            
           }
         })
-        uploadNum = uploadNum + 1
         that.setData({
           videoList: videoArr,
-          uploaderNum: uploadNum,
         })
         that.data.videoList = videoArr
-        if (that.data.uploaderNum == 6) {
-          that.setData({
-            showUpload: false
-          })
-        }
       }
     })
   },
@@ -242,11 +222,11 @@ Page({
   // 删除视频
   clearVideo: function (e) {
     var that = this
-    wx.showModal({
-      title: '提示',
-      content: '您确认删除嘛？删除后不可恢复！',
-      success: function (res) {
-        if (res.confirm) {
+    // wx.showModal({
+    //   title: '提示',
+    //   content: '您确定删除吗？删除后不可恢复！',
+    //   success: function (res) {
+        // if (res.confirm) {
           var nowList = [];//新数据
           var uploaderList = that.data.videoList;//原数据
           for (let i = 0; i < uploaderList.length; i++) {
@@ -262,13 +242,11 @@ Page({
             }
           }
           that.setData({
-            uploaderNum: that.data.uploaderNum - 1,
             videoList: nowList,
-            showUpload: true
           })
-        }
-      }
-    })
+    //     }
+    //   }
+    // })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -279,11 +257,40 @@ Page({
       date: that.getDate()
     })
     if(options.school) {
-      this.setData({
+      that.setData({
         school: options.school,
         isEdit: true
       })
-    }else {
+    } else if (options.homework) {
+      let homework = JSON.parse(options.homework)
+      var allSubjects = that.data.allSubjects;
+      for (var i = 0; i < allSubjects.length; i++) {
+        if (allSubjects[i].name == homework.subject) {
+          allSubjects[i].checked = true;
+        } else {
+          allSubjects[i].checked = false;
+        }
+      }
+      that.setData({
+        allSubjects: allSubjects,
+        school: homework.school,
+        grade: homework.grade,
+        subject: homework.subject,
+        virtual_class: homework.virtual_class,
+        content: homework.content,
+        image_ids: homework.image_ids,
+        uploaderList: homework.images,
+        video_ids: homework.video_ids,
+        videoList: homework.videos,
+        homework_id: homework.id,
+        homework: homework
+      })
+      if(String.isBlank(app.globalData.mobile)){
+        that.setData({
+          openType: 'getPhoneNumber'
+        })
+      }
+    } else {
       wx.getStorage({
         key: 'schoolInfo',
         success: function(res) {
@@ -448,12 +455,19 @@ Page({
   },
   // 布置作业
   arrangeHomework:function(e) {
+    let status = e.currentTarget.dataset.status
     var that = this
+    
     if (String.isBlank(that.data.school)) {
       wx.showToast({
         title: '学校信息有误',
         icon: 'none'
       })
+      if (app.globalData.mobile == 0 && that.data.subject && that.data.grade && that.data.virtual_class && that.data.content) {
+        that.setData({
+          openType: 'getPhoneNumber'
+        })
+      }
       return
     }
     if(String.isBlank(that.data.subject)) {
@@ -461,6 +475,11 @@ Page({
         title: '请选择学科',
         icon:'none'
       })
+      if (app.globalData.mobile == 0 && that.data.grade && that.data.virtual_class && that.data.content) {
+        that.setData({
+          openType: 'getPhoneNumber'
+        })
+      }
       return
     }
     if (String.isBlank(that.data.grade)) {
@@ -468,6 +487,11 @@ Page({
         title: '请选择年级',
         icon: 'none'
       })
+      if (app.globalData.mobile == 0 && that.data.virtual_class && that.data.content) {
+        that.setData({
+          openType: 'getPhoneNumber'
+        })
+      }
       return
     }
     if (String.isBlank(that.data.virtual_class)) {
@@ -475,6 +499,11 @@ Page({
         title: '请选择班级',
         icon: 'none'
       })
+      if (app.globalData.mobile == 0 && that.data.content) {
+        that.setData({
+          openType: 'getPhoneNumber'
+        })
+      }
       return
     }
     if (String.isBlank(that.data.content)) {
@@ -486,12 +515,47 @@ Page({
     }
     let image_ids = JSON.stringify(that.data.image_ids)
     let video_ids = JSON.stringify(that.data.video_ids)
-    // 
-    console.log('视频图片id')
-    console.log(image_ids)
-    console.log(video_ids)
-    // return
-    // 布置作业接口
+    if (String.isBlank(app.globalData.mobile)) {
+      console.log(e)
+      if(e.detail.errMsg) {
+        if (e.detail.errMsg == 'getPhoneNumber:ok') {
+          console.log('允许获取手机号')
+          app.login().then(() => {
+            wx.request({
+              url: app.globalData.host + '/encrypted-data',
+              method: "GET",
+              data: {
+                session_key: app.globalData.sessionKey,
+                encrypted_data: e.detail.encryptedData,
+                iv: e.detail.iv
+              },
+              success: function (e) {
+                let phoneDetail = JSON.parse(e.data.data)
+                let phoneNumber = phoneDetail.purePhoneNumber
+                app.globalData.mobile = phoneNumber
+                that.setData({
+                  openType: ''
+                })
+                console.log(phoneDetail.purePhoneNumber)
+                that.publishHomework(status, image_ids, video_ids, phoneNumber)
+              },
+              fail: function (e) {
+                console.log(e)
+              }
+            })
+          })
+        } else {
+          console.log('用户点击拒绝获取')
+          that.publishHomework(status, image_ids, video_ids, 0)
+        }
+      }
+    }else {
+      that.publishHomework(status, image_ids, video_ids, 0)
+    }
+  },
+  // 保存作业
+  publishHomework: function (status, image_ids, video_ids, phoneNumber) {
+    var that = this
     app.login().then(() => {
       wx.request({
         url: app.globalData.host + '/api/homework',
@@ -501,20 +565,23 @@ Page({
           'Authorization': app.globalData.token
         },
         data: {
+          homework_id: that.data.homework_id,
           school: that.data.school,
           grade: that.data.grade,
           virtual_class: that.data.virtual_class,
           subject: that.data.subject,
           content: that.data.content,
-          image_ids:image_ids,
-          video_ids:video_ids
+          image_ids: image_ids,
+          video_ids: video_ids,
+          mobile: phoneNumber,
+          status: status
         },
-        success: function(e) {
+        success: function (e) {
           console.log(e)
-          if(e.data.code != 0) {
+          if (e.data.code != 0) {
             wx.showToast({
               title: e.data.error,
-              icon:'none'
+              icon: 'none'
             })
           } else {
             wx.showToast({
@@ -528,12 +595,18 @@ Page({
             that.setData({
               date: e.data.data.date
             })
-            wx.navigateTo({
-              url: '/pages/homework/homework?date=' + e.data.data.date + '&&arrange=1',
-            })
+            if(status == 0) {
+              wx.navigateTo({
+                url: '/pages/homework/homework?date=' + e.data.data.date + '&homework_id=' + e.data.data.id + '&arrange=1',
+              })
+            }else {
+              wx.navigateTo({
+                url: '/pages/homework/homework?date=' + e.data.data.date + '&arrange=1',
+              })
+            }
           }
         },
-        fail: function(e) {
+        fail: function (e) {
           console.log(e)
         }
       })
@@ -541,9 +614,19 @@ Page({
   },
   // 获取作业内容输入框内容
   contentChange:function(e) {
-    this.setData({
+    var that = this
+    that.setData({
       content: e.detail.value || ''
     })
+    if (e.detail.value && app.globalData.mobile == 0 && that.data.subject && that.data.grade && that.data.virtual_class && that.data.school) {
+      that.setData({
+        openType: 'getPhoneNumber'
+      })
+    }else {
+      that.setData({
+        openType: ''
+      })
+    }
   },
   // 显示遮罩层
   showModal: function () {
@@ -588,5 +671,5 @@ Page({
     this.setData({
       animationData: this.animation.export(),
     })
-  },
+  }
 })

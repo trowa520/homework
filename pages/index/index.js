@@ -9,8 +9,8 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     homeworks: [],
 
-    schools:[],
-    schoolInfo:false,
+    schools: [],
+    schoolInfo: false,
     isSelect: 'none',
 
     hideModal: true, //模态框的状态  true-隐藏  false-显示
@@ -21,16 +21,19 @@ Page({
     loveScore: -1,
 
     currentPage: 1, // 当前页数
-    totalPage:1, // 总页数
+    totalPage: 1, // 总页数
+
+    images: [],
 
   },
   onLoad: function () {
+    console.log(app.globalData)
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
-    } else if (this.data.canIUse){
+    } else if (this.data.canIUse) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
@@ -52,7 +55,7 @@ Page({
       })
     }
   },
-  onShow: function() {
+  onShow: function () {
     var that = this
     wx.getStorage({
       key: 'schoolInfo',
@@ -69,7 +72,7 @@ Page({
     })
   },
   // 获取学校信息
-  getSchools:function(e) {
+  getSchools: function (e) {
     let that = this
     wx.request({
       url: app.globalData.host + '/api/schools',
@@ -77,7 +80,7 @@ Page({
         'Authorization': app.globalData.token
       },
       success: function (res) {
-        if(res.data.data.length > 0) {
+        if (res.data.data.length > 0) {
           that.setData({
             schools: res.data.data
           })
@@ -95,19 +98,19 @@ Page({
               that.setData({
                 schoolInfo: firstSchool
               })
-            }else {
+            } else {
               // 如果设置过学校
               that.setData({
                 schoolInfo: schoolInfo
               })
             }
             that.getHomeworks(1)
-          } catch(e) {
-            
+          } catch (e) {
+
           }
         } else {
           that.setData({
-              schools: [that.data.schoolInfo],
+            schools: [that.data.schoolInfo],
           })
           wx.setStorage({
             key: 'schools',
@@ -119,7 +122,7 @@ Page({
         // 停止下拉动作
         wx.stopPullDownRefresh();
       },
-      fail: function(res) {
+      fail: function (res) {
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
         // 停止下拉动作
@@ -129,8 +132,8 @@ Page({
     that.getLoveScore()
   },
   // 获取作业列表
-  getHomeworks:function(currentPage) {
-    var currentPage = currentPage 
+  getHomeworks: function (currentPage) {
+    var currentPage = currentPage
     let that = this
     if (String.isBlank(that.data.schoolInfo)) {
       // 隐藏加载框  
@@ -139,7 +142,7 @@ Page({
       wx.hideNavigationBarLoading();
       // 停止下拉动作
       wx.stopPullDownRefresh();
-    }else {
+    } else {
       wx.request({
         url: app.globalData.host + '/api/homeworks',
         method: 'GET',
@@ -152,7 +155,7 @@ Page({
         },
         success: function (res) {
           if (res.data.data.data.length > 0) {
-            if(currentPage == 1) {
+            if (currentPage == 1) {
               that.setData({
                 homeworks: res.data.data.data
               })
@@ -168,6 +171,9 @@ Page({
               homeworks: []
             })
           }
+          that.setData({
+            images: res.data.images
+          })
           // 隐藏加载框  
           wx.hideLoading();
           // 隐藏导航栏加载框
@@ -188,26 +194,26 @@ Page({
     }
   },
   // 获取爱心积分
-  getLoveScore:function(e) {
+  getLoveScore: function (e) {
     var that = this
     wx.request({
       url: app.globalData.host + '/api/love-score',
       header: {
         'Authorization': app.globalData.token
       },
-      success:function(res) {
-        setTimeout(function(){
+      success: function (res) {
+        setTimeout(function () {
           that.setData({
             loveScore: res.data.data.score
           })
-        },2000)
+        }, 2000)
         app.globalData.times = res.data.data.times
         app.globalData.score = res.data.data.score
       }
     })
   },
   // 获取用户信息
-  getUserInfo: function(e) {
+  getUserInfo: function (e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
@@ -216,7 +222,7 @@ Page({
     })
   },
   // 点击卡片 查看详情 事件
-  clickDetail:function(e) {
+  clickDetail: function (e) {
     var that = this
     that.setData({
       hideModal: true,
@@ -227,7 +233,7 @@ Page({
     })
   },
   // 导航到
-  navigateTo: function(e) {
+  navigateTo: function (e) {
     var type = e.currentTarget.dataset.type
     var that = this
     that.setData({
@@ -236,21 +242,21 @@ Page({
     })
     wx.getStorage({
       key: 'schoolInfo',
-      success: function(res) {
+      success: function (res) {
         that.setData({
           schoolInfo: res.data
         })
       },
     })
-    switch(type) {
+    switch (type) {
       case 'arrange':
         // 判断此人是否有学校
-        if(that.data.schoolInfo) {
+        if (that.data.schoolInfo) {
           wx.navigateTo({
             url: '/pages/arrange/arrange',
           })
           break
-        }else {
+        } else {
           wx.navigateTo({
             url: '/pages/school/school',
           })
@@ -267,16 +273,16 @@ Page({
         })
         that.getLoveScore()
         break
-      default :
+      default:
         wx.navigateTo({
           url: '/pages/arrange/arrange',
         })
         break
     }
   },
-  
+
   // 选择学校
-  selectSchool:function(e) {
+  selectSchool: function (e) {
     var that = this
     that.setData({
       hideModal: true,
@@ -284,7 +290,7 @@ Page({
     })
     let schoolInfo = e.currentTarget.dataset.schoolinfo
     this.setData({
-      schoolInfo:schoolInfo
+      schoolInfo: schoolInfo
     })
     wx.setStorage({
       key: 'schoolInfo',
@@ -292,7 +298,7 @@ Page({
       currentPage: 1
     })
     wx.showLoading({
-      'title' : '加载中...'
+      'title': '加载中...'
     })
     this.getHomeworks(1)
   },
@@ -311,7 +317,7 @@ Page({
     that.getHomeworks(1)
   },
   // 上拉加载
-  onReachBottom: function() {
+  onReachBottom: function () {
     var that = this;
     // 显示加载图标  
     wx.showLoading({
@@ -319,7 +325,7 @@ Page({
     })
     that.data.currentPage += 1
     console.log(that.data)
-    if(that.data.currentPage <= that.data.totalPage) {
+    if (that.data.currentPage <= that.data.totalPage) {
       that.getHomeworks(that.data.currentPage)
     } else {
       wx.hideLoading()
@@ -332,25 +338,28 @@ Page({
     }
   },
   // 图片预览
-  showImages:function(e) {
+  showImages: function (e) {
+    var that = this
     console.log('展示图片')
+    console.log(e.currentTarget.dataset.date)
+    console.log(e.currentTarget.dataset.index)
+    console.log(that.data.images)
     var that = this;
-    let images = e.currentTarget.dataset.images
-    console.log(e)
+    let date = e.currentTarget.dataset.date
     wx.previewImage({
-      urls: images,
-      current: images[e.currentTarget.dataset.index]
+      urls: that.data.images[date],
+      current: that.data.images[date][e.currentTarget.dataset.index]
     })
     return
   },
   // 视频预览
   bindVideoScreenChange: function (e) {
     var status = e.detail.fullScreen;
-    if(this.data.showFlex == true) {
+    if (this.data.showFlex == true) {
       this.setData({
         showFlex: false
       })
-    }else [
+    } else[
       this.setData({
         showFlex: true
       })
@@ -360,12 +369,12 @@ Page({
     }
     if (status) {
       play.playVideo = true;
-    } 
+    }
     this.setData(play);
   },
-  showOrhide:function() {
+  showOrhide: function () {
     var that = this
-    if(this.data.hideModal == false) {
+    if (this.data.hideModal == false) {
       that.hideModal()
     } else {
       that.showModal()

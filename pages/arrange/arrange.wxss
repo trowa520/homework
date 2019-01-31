@@ -101,16 +101,15 @@ page {
   background: white;
 }
 .ui_uploader_cell {
-  margin-top: 20px;
+  margin-top: 90rpx;
   height: 100%;
   width: 100%;
 }
 
 .ui_uploader_item {
-  margin-top: 25px;
-  margin-left: 15px;
-  height: 100px;
-  width: 100px;
+  margin-left: 30rpx;
+  height: 150rpx;
+  width: 150rpx;
   display: inline-block;
   position: relative;
 }
@@ -163,6 +162,9 @@ page {
   color:rgb(178, 178, 178);
   text-align:right;
   width:200px;
+}
+.black {
+  color: rgb(51, 51, 51);
 }
 
 /* 输入框 */
@@ -229,7 +231,7 @@ textarea {
   align-items: center;
 }
 
-.save-button {
+.save-send-button {
   width: 690rpx;
   background: rgb(2, 209, 113);
   height: 90rpx;
@@ -241,6 +243,22 @@ textarea {
   align-items: center;
   border-radius: 5px;
   font-size: 15px;
+  font-weight: bold;
+}
+
+.save-button {
+  width: 690rpx;
+  background: white;
+  height: 90rpx;
+  text-align: center;
+  color: #888888;
+  display: flex;
+  margin-top: 20rpx;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .award-notice-view {

@@ -69,14 +69,36 @@ page {
 }
 .delete-button {
   display: flex;
+  height: 90rpx;
+  align-items: center;
+  text-align: center;
+  background: rgb(245, 245, 245);
+  color: red;
+  width: 335rpx;
+  border-radius: 10rpx;
+  justify-content: center;
+}
+
+.edit-button {
+  height: 90rpx;
+  display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20rpx;
-  width: 690rpx;
-  height: 90rpx;
   text-align: center;
-  color: red;
   background: rgb(245, 245, 245);
+  color: rgb(2, 209 ,113);
+  width: 335rpx;
   border-radius: 10rpx;
+}
+
+.edit-del-bg-view {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+  height: 90rpx;
+  
   font-size: 15px;
+  width: 690rpx;
+
 }
