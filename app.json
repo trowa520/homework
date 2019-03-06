@@ -4,7 +4,12 @@
     "pages/history/history",
     "pages/homework/homework",
     "pages/arrange/arrange",
-    "pages/school/school"
+    "pages/school/school",
+    "pages/score/score",
+    "pages/exchange/exchange",
+    "pages/scorerecord/scorerecord",
+    "pages/share/share"
+    
   ],
   "window": {
     "backgroundTextStyle": "dark",

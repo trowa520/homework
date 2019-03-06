@@ -68,3 +68,17 @@ page {
 .scoll-height{
   height: 100%;
 }
+
+.content-text {
+  display: -webkit-box;      
+  -webkit-box-orient: vertical;
+  overflow: hidden;  
+  -webkit-line-clamp: 3;  
+  /* text-overflow: clip;   */
+}
+
+.show-detail-view {
+  font-size:30rpx;
+  color: rgb(2, 209 ,113);
+  padding-bottom: 10px;    
+}

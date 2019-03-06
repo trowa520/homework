@@ -1,9 +1,9 @@
 <!--pages/homework/homework.wxml-->
 <view class='bg-view'>
+  <view class='school-info-view'>{{schoolInfo.school+schoolInfo.grade+schoolInfo.virtual_class}}作业</view>
   <view class='card-view' >
-  <block wx:if="{{homework_id == 0}}">
     <block wx:if="{{homeworks}}" wx:key="" data-id=""  wx:for="{{homeworks}}" wx:for-item="lists">
-      <i-card class='card-list' homework="{{lists[0]}}" data-date="{{lists[0].date}}">
+      <i-card class='card-list' homework="{{lists[0]}}" data-date="{{lists[0].date}}" data-holiday="{{lists[0].tag}}">
         <view slot="content">
           <block wx:if="{{homeworks}}" wx:key="{{homework.id}}" data-id="{{homework.id}}"  wx:for="{{lists}}" wx:for-item="homework">
           <view class='subject-content-bg-view'>
@@ -23,7 +23,7 @@
           <view class='media-bg-view'>
             <block wx:if="{{homeworks}}" wx:key="{{homework.id}}" data-id="{{homework.id}}"  wx:for="{{lists}}" wx:for-item="homework">
               <block wx:if="{{index == 0}}">
-                <view class='footer-content-view' wx:key="" wx:for="{{images[homework.date]}}" wx:item="{{item}}" wx:if="{{images[homework.date].length > 0}}" data-index="{{index}}" data-date="{{homework.date}}"  catchtap="showImages">
+                <view class='footer-content-view' wx:key="" wx:for="{{images[homework.date]}}" wx:item="{{item}}" wx:if="{{images[homework.date].length > 0}}" data-index="{{index}}" data-date="{{homework.date}}" data-holiday="{{homework.tag}}" catchtap="showImages">
                   <view class='footer-image-bg-view'>
                     <view class='footer-image-view'>
                       <image class='footer-image'  src="{{item}}?x-oss-process=image/resize,m_fixed,h_80,w_80"></image>
@@ -43,62 +43,46 @@
         </view>
       </i-card>
     </block>
-  </block>
-  <block wx:else>
-    <i-card class='card-list' homework="{{homework}}" data-date="{{homework.date}}" data-homework_id="{{homework.id}}" bindtap='clickDetail'>
-        <view slot="content">
-            <view class='subject-content-bg-view'>
-              <view class='subject-content-view'>
-                  {{homework.subject}}作业：
-              </view>
-              <view class='content-text-bg-view'>
-                <text class="content-text">
-                  {{homework.content}}
-                </text>
-              </view>
-            </view>
-        </view>
-        <view slot="media">
-          <view class='media-bg-view'>
-              <view class='footer-content-view' wx:key="" wx:for="{{homework.images}}" wx:item="{{item}}" wx:if="{{homework.images.length > 0}}" data-date="{{homework.date}}" data-index="{{index}}" data-images="{{homework.images}}" catchtap="showImages">
-                
-                <view class='footer-image-bg-view'>
-                  <view class='footer-image-view'>
-                    <image class='footer-image'  src="{{item}}?x-oss-process=image/resize,m_fixed,h_80,w_80"></image>
-                  </view>
-                </view>
-              </view>
-              <block wx:for="{{homework.videos}}" wx:item="{{item}}" wx:key="{{index}}">
-                <view class='footer-content-view' wx:if="{{homework.videos.length > 0}}" catchtap="showVideos">
-                  <view class='footer-image-bg-view'>
-                    <video class="foot-video" src="{{item}}" data-index="{{index}}" bindfullscreenchange="bindVideoScreenChange" controls></video>
-                  </view>
-                </view>
-              </block>
-          </view>
-        </view>
-      </i-card>
-  </block>
   </view>
-
   <view class='bottom-bg-view'>
-    <block wx:if="{{homework.status == 0}}">
+    <block wx:if="{{status == 0}}">
       <button class='save-button' bindtap='publishHomework'>发布作业</button>
     </block>
     <block wx:else>
       <button class='save-button' open-type='share'>转发作业</button>
     </block>
-    <view class='edit-del-bg-view'>
-      <view wx:if="{{homework_id > 0}}" class='edit-button' bindtap='editHomework'>
+    <view class='edit-del-bg-view' wx:if="{{parent_id_from_history > 0}}">
+      <view class='edit-button' bindtap='editHomework'>
         编辑
       </view>
-      <view wx:if="{{homework_id > 0}}" class='delete-button' bindtap='deleteHomework'>
+      <view class='delete-button' bindtap='deleteHomework'>
         删除
       </view>
+    </view>
+    <button class='back-button' bindtap='backToHome'>返回首页</button>
+  </view>
+</view>
+
+<!-- 奖励积分弹出框 -->
+<!-- mask -->
+<view class="drawer-screen" bindtap="powerDrawer" wx:if="{{showModalStatus}}"></view>
+<!--content-->
+<!--使用animation属性指定需要执行的动画-->
+<view animation="{{animationData}}" class="drawer-box" wx:if="{{showModalStatus}}">
+  <!--drawer content-->
+  <view class="drawer-content">
+    <view class='drawer-notice'>发布作业成功</view>
+    <view class="coin-socre-view">
+      <image style='width:89rpx;height:89rpx;margin-right:15rpx;' src='../../images/coin.png'></image>
+      +4分
     </view>
   </view>
 </view>
 
+<!-- 广告位 -->
+<view class="advertisement-view {{showAdView ? '' : 'close'}}" bindtap='navigateToShare'>
+  <image class='circle-close' bindtap='closeAd' src='../../images/circle_close.png'></image>
+</view>
 
-
-
+<!-- 客服 -->
+<button class="right-flex-custom-view" style="" open-type="contact"></button>

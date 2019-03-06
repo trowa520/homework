@@ -1,0 +1,53 @@
+<!--pages/score/score.wxml-->
+<view class='bg-view'>
+  <view class="advertisement-bg-view {{showAdView ? '' : 'close'}}" bindtap='navigateToShare'>
+    <image class='circle-close' bindtap='closeAd' src='../../images/circle_close.png'></image>
+  </view>
+  <!-- 积分余额 -->
+  <view class='score-main-bg-view' catchtap='scorerecord'>
+    <view class='balance-view'>积分余额</view>
+    <view class='score-view'>{{balance}}</view>
+    <view class='score-record-bg-view'>
+      <view class='score-record-view'>积分记录</view>
+    </view>
+  </view>
+  <!-- 积分规则 -->
+  <view class='rule-bg-view'>
+    <view class='rule-main-bg-view'>
+      <view class='score-rule-view'>积分规则</view>
+      <text class='ruld-description' style='padding-top:20rpx;'>1. 每日签到，打开小程序奖励6积分，每天仅限一次;</text>
+      <text class='ruld-description'>2. 编辑作业并且转发分享至个人或班级群奖励4积分，每天仅限一次；</text>
+      <text class='ruld-description'>3. 成为小程序推广达人，关注公众号“小学生了吗”了解详细信息，积分50积分/天。</text>
+      <view style='padding-bottom:30rpx;'></view>
+    </view>
+  </view>
+  <!-- 积分兑换 -->
+  <view class='exchange-main-bg-view'>
+    <view class='exchange-notice-view'>积分兑换</view>
+    <view class='goods-bg-view'>
+      <!-- 商品卡片 -->
+      <block wx:if="{{goods}}" wx:key=""  data-id="" wx:for="{{goods}}" wx:for-item="goodsDetail">
+        <view class='goods-view'>
+          <view class='goods-detail-view'>
+            <view class='goods-image-view'>
+              <image catchtap='showImages' data-goods="{{goodsDetail}}" data-images="{{goodsDetail.banner}}" src='{{goodsDetail.cover}}?x-oss-process=image/resize,m_fixed,h_120,w_120'></image>
+            </view>
+            <view class='goods-desp-view'>
+              <view class='goods-name-view'>{{goodsDetail.name}}</view>
+              <view class="score-exchange-view">
+                <!-- <block wx:if="{{goodsDetail.original_price != goodsDetail.price}}">
+                  <view class="old-price-view}}">
+                      {{goodsDetail.original_price}}积分
+                  </view>
+                </block> -->
+                <view class="price-view">{{goodsDetail.int_price}}积分</view>
+              </view>
+            </view>
+            <button class='buy-button' data-price='{{goodsDetail.int_price}}' open-type="{{openType}}" bindgetphonenumber="exchage" bindtap='exchage'>立即兑换</button>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>
+<button class="right-flex-custom-view" style="" open-type="contact"></button>

@@ -4,125 +4,96 @@ const app = getApp()
 import { String } from '../../utils/util.js';
 Page({
   data: {
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    showModalStatus: false, // 签到积分奖励
+    showCoachMarks: false,  // 新手引导页
+    showAdView: true,       // 广告位
+    showFlex: true,         // 显示悬浮按钮
+
     homeworks: [],
-
-    schools: [],
-    schoolInfo: false,
-    isSelect: 'none',
-
-    hideModal: true, //模态框的状态  true-隐藏  false-显示
-    animationData: {},//
-
-    showFlex: true,   // 显示悬浮按钮
-
-    loveScore: -1,
-
-    currentPage: 1, // 当前页数
-    totalPage: 1, // 总页数
-
+    schools:[],
     images: [],
+    schoolInfo:false,
+    isSelect: 'none',
+    loveScore: 0,
 
+    hideModal: true,        //模态框的状态  true-隐藏  false-显示
+    animationData: {},   
+
+    currentPage: 1,         // 当前页数
+    totalPage:1,            // 总页数
   },
-  onLoad: function () {
-    console.log(app.globalData)
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
+  onLoad: function() {
+    var that = this
+    that.setData({
+      schoolInfo: app.globalData.schoolInfo,
+    })
+    wx.getStorage({
+      key: 'showGuide',
+      success: function(res) {
+        // 如果是当前版本
+        if (res.data == app.globalData.version) {
+          console.log('不展示引导页')
+        }else {
+          that.setData({
+            showCoachMarks: true,
+            showOne: true
           })
         }
-      })
-    }
-  },
-  onShow: function () {
-    var that = this
-    wx.getStorage({
-      key: 'schoolInfo',
-      success: function (res) {
-        that.setData({
-          schoolInfo: res.data,
-        })
-        that.getHomeworks(1)
       },
+      fail:function(res) {
+        that.setData({
+          showCoachMarks: true,
+          showOne: true
+        })
+      }
     })
+  },
+  onShow: function() {
+    var that = this
+    console.log(app.globalData)
+    that.getHomeworks(1)
     // 在登陆状态下获取学校信息
     app.login().then(() => {
       that.getSchools()
     })
   },
   // 获取学校信息
-  getSchools: function (e) {
+  getSchools:function(e) {
     let that = this
+    that.dailyBonus()
     wx.request({
       url: app.globalData.host + '/api/schools',
       header: {
         'Authorization': app.globalData.token
       },
       success: function (res) {
-        if (res.data.data.length > 0) {
+        that.setData({
+          schools: res.data.data
+        })
+        wx.setStorage({
+          key: 'schools',
+          data: res.data.data,
+        })
+        // 判断用户是否设置过学校 如果没有 默认选中第一个
+        if (app.globalData.schoolInfo.school == '') {
+          // 如果没有设置过学校
+          app.globalData.schoolInfo = res.data.data[0]
           that.setData({
-            schools: res.data.data
+            schoolInfo: res.data.data[0]
           })
-          wx.setStorage({
-            key: 'schools',
-            data: res.data.data,
-          })
-          // 判断用户是否设置过学校 如果没有 默认选中第一个
-          let firstSchool = res.data.data[0]
-          try {
-            const schoolInfo = wx.getStorageSync('schoolInfo')
-            if (String.isBlank(schoolInfo)) {
-              // 如果没有设置过学校
-              wx.setStorageSync('schoolInfo', firstSchool)
-              that.setData({
-                schoolInfo: firstSchool
-              })
-            } else {
-              // 如果设置过学校
-              that.setData({
-                schoolInfo: schoolInfo
-              })
-            }
-            that.getHomeworks(1)
-          } catch (e) {
-
-          }
-        } else {
+        }else {
+          // 如果设置过学校
           that.setData({
-            schools: [that.data.schoolInfo],
-          })
-          wx.setStorage({
-            key: 'schools',
-            data: [that.data.schoolInfo],
+            schoolInfo: app.globalData.schoolInfo
           })
         }
+        that.getHomeworks(1)
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
         // 停止下拉动作
         wx.stopPullDownRefresh();
       },
-      fail: function (res) {
+      fail: function(res) {
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
         // 停止下拉动作
@@ -132,17 +103,17 @@ Page({
     that.getLoveScore()
   },
   // 获取作业列表
-  getHomeworks: function (currentPage) {
-    var currentPage = currentPage
+  getHomeworks:function(currentPage) {
+    var currentPage = currentPage 
     let that = this
-    if (String.isBlank(that.data.schoolInfo)) {
+    if (app.globalData.schoolInfo.school == '') {
       // 隐藏加载框  
       wx.hideLoading();
       // 隐藏导航栏加载框
       wx.hideNavigationBarLoading();
       // 停止下拉动作
       wx.stopPullDownRefresh();
-    } else {
+    }else {
       wx.request({
         url: app.globalData.host + '/api/homeworks',
         method: 'GET',
@@ -155,7 +126,7 @@ Page({
         },
         success: function (res) {
           if (res.data.data.data.length > 0) {
-            if (currentPage == 1) {
+            if(currentPage == 1) {
               that.setData({
                 homeworks: res.data.data.data
               })
@@ -182,7 +153,6 @@ Page({
           wx.stopPullDownRefresh();
         },
         fail: function (res) {
-          console.log(res)
           // 隐藏加载框  
           wx.hideLoading()
           // 隐藏导航栏加载框
@@ -194,71 +164,74 @@ Page({
     }
   },
   // 获取爱心积分
-  getLoveScore: function (e) {
+  getLoveScore:function(e) {
     var that = this
     wx.request({
       url: app.globalData.host + '/api/love-score',
       header: {
         'Authorization': app.globalData.token
       },
-      success: function (res) {
-        setTimeout(function () {
-          that.setData({
-            loveScore: res.data.data.score
-          })
-        }, 2000)
+      success:function(res) {
+        that.setData({
+          loveScore: res.data.data.score
+        })
         app.globalData.times = res.data.data.times
         app.globalData.score = res.data.data.score
       }
     })
   },
-  // 获取用户信息
-  getUserInfo: function (e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+  // 每日签到
+  dailyBonus:function(e) {
+    var that = this
+    wx.request({
+      url: app.globalData.host + '/api/daily-bonus',
+      header: {
+        'Authorization': app.globalData.token
+      },
+      success: function (res) {
+        if(res.data.code == 0) {
+          if (res.data.is_award == 1) {
+            setTimeout(function () {
+              that.mask("open")
+              setTimeout(function () {
+                that.mask("close")
+              }, 2000)
+            })
+          }
+        }
+      }
     })
   },
   // 点击卡片 查看详情 事件
-  clickDetail: function (e) {
+  clickDetail:function(e) {
     var that = this
     that.setData({
       hideModal: true,
       showFlex: true
     })
     wx.navigateTo({
-      url: '/pages/homework/homework?date=' + e.currentTarget.dataset.date,
+      url: '/pages/homework/homework?date=' + e.currentTarget.dataset.date + '&holiday=' + e.currentTarget.dataset.holiday,
     })
   },
   // 导航到
-  navigateTo: function (e) {
+  navigateTo: function(e) {
     var type = e.currentTarget.dataset.type
     var that = this
     that.setData({
       hideModal: true,
       showFlex: true
     })
-    wx.getStorage({
-      key: 'schoolInfo',
-      success: function (res) {
-        that.setData({
-          schoolInfo: res.data
-        })
-      },
-    })
-    switch (type) {
+    switch(type) {
       case 'arrange':
         // 判断此人是否有学校
-        if (that.data.schoolInfo) {
-          wx.navigateTo({
-            url: '/pages/arrange/arrange',
-          })
-          break
-        } else {
+        if(app.globalData.schoolInfo.school == '') {
           wx.navigateTo({
             url: '/pages/school/school',
+          })
+          break
+        }else {
+          wx.navigateTo({
+            url: '/pages/arrange/arrange',
           })
           break
         }
@@ -268,21 +241,29 @@ Page({
         })
         break
       case 'score':
-        that.setData({
-          loveScore: -1,
+        wx.navigateTo({
+          url: '/pages/score/score',
         })
-        that.getLoveScore()
         break
-      default:
+      case 'share':
+        wx.navigateTo({
+          url: '/pages/share/share',
+        })
+        break
+      default :
         wx.navigateTo({
           url: '/pages/arrange/arrange',
         })
         break
     }
   },
-
+  navigateToShare: function() {
+    wx.navigateTo({
+      url: '/pages/share/share',
+    })
+  },
   // 选择学校
-  selectSchool: function (e) {
+  selectSchool:function(e) {
     var that = this
     that.setData({
       hideModal: true,
@@ -290,15 +271,12 @@ Page({
     })
     let schoolInfo = e.currentTarget.dataset.schoolinfo
     this.setData({
-      schoolInfo: schoolInfo
-    })
-    wx.setStorage({
-      key: 'schoolInfo',
-      data: schoolInfo,
+      schoolInfo:schoolInfo,
       currentPage: 1
     })
+    app.globalData.schoolInfo = schoolInfo
     wx.showLoading({
-      'title': '加载中...'
+      'title' : '加载中...'
     })
     this.getHomeworks(1)
   },
@@ -317,15 +295,14 @@ Page({
     that.getHomeworks(1)
   },
   // 上拉加载
-  onReachBottom: function () {
+  onReachBottom: function() {
     var that = this;
     // 显示加载图标  
     wx.showLoading({
       'title': '加载中...'
     })
     that.data.currentPage += 1
-    console.log(that.data)
-    if (that.data.currentPage <= that.data.totalPage) {
+    if(that.data.currentPage <= that.data.totalPage) {
       that.getHomeworks(that.data.currentPage)
     } else {
       wx.hideLoading()
@@ -338,13 +315,8 @@ Page({
     }
   },
   // 图片预览
-  showImages: function (e) {
+  showImages:function(e) {
     var that = this
-    console.log('展示图片')
-    console.log(e.currentTarget.dataset.date)
-    console.log(e.currentTarget.dataset.index)
-    console.log(that.data.images)
-    var that = this;
     let date = e.currentTarget.dataset.date
     wx.previewImage({
       urls: that.data.images[date],
@@ -355,11 +327,11 @@ Page({
   // 视频预览
   bindVideoScreenChange: function (e) {
     var status = e.detail.fullScreen;
-    if (this.data.showFlex == true) {
+    if(this.data.showFlex == true) {
       this.setData({
         showFlex: false
       })
-    } else[
+    }else [
       this.setData({
         showFlex: true
       })
@@ -369,12 +341,12 @@ Page({
     }
     if (status) {
       play.playVideo = true;
-    }
+    } 
     this.setData(play);
   },
-  showOrhide: function () {
+  showOrhide:function() {
     var that = this
-    if (this.data.hideModal == false) {
+    if(this.data.hideModal == false) {
       that.hideModal()
     } else {
       that.showModal()
@@ -425,5 +397,105 @@ Page({
     this.setData({
       animationData: this.animation.export(),
     })
+  },
+
+  // 奖励积分弹窗动画
+  // powerDrawer: function (e) {
+  //   var that = this
+  //   if (that.data.showModalStatus) {
+  //     that.mask('close')
+  //   } else {
+  //     that.mask('open')
+  //   }
+  // },
+  mask: function (currentStatu) {
+    /* 动画部分 */
+    // 第1步：创建动画实例 
+    var animation = wx.createAnimation({
+      duration: 200,  //动画时长
+      timingFunction: "linear", //线性
+      delay: 0  //0则不延迟
+    });
+    // 第2步：这个动画实例赋给当前的动画实例
+    this.animation = animation;
+    // 第3步：执行第一组动画
+    animation.opacity(0).rotateX(-100).step();
+    // 第4步：导出动画对象赋给数据对象储存
+    this.setData({
+      animationData: animation.export()
+    })
+    // 第5步：设置定时器到指定时候后，执行第二组动画
+    setTimeout(function () {
+      // 执行第二组动画
+      animation.opacity(1).rotateX(0).step();
+      // 给数据对象储存的第一组动画，更替为执行完第二组动画的动画对象
+      this.setData({
+        animationData: animation
+      })
+      //关闭
+      if (currentStatu == "close") {
+        this.setData(
+          {
+            showModalStatus: false
+          }
+        );
+      }
+    }.bind(this), 200)
+    // 显示
+    if (currentStatu == "open") {
+      this.setData(
+        {
+          showModalStatus: true
+        }
+      );
+    }
+  },
+  closeAd: function(){
+    console.log('关闭广告')
+    this.setData({
+      showAdView: false
+    })
+  },
+  showTwo: function() {
+    console.log('展示2')
+    this.setData({
+      showOne: false,
+      showTwo: true
+    })
+  },
+  showThree: function () {
+    console.log('展示3')
+    this.setData({
+      showTwo: false,
+      showThree: true
+    })
+  },
+  showFour: function () {
+    console.log('展示4')
+    this.setData({
+      showThree: false,
+      showFour: true
+    })
+  },
+  allClose: function () {
+    console.log('展示0')
+    this.setData({
+      showFour: false,
+      showCoachMarks:false
+    })
+    wx.setStorage({
+      key: 'showGuide',
+      data: app.globalData.version, //版本1.2.0
+    })
+  },
+  onShareAppMessage: function () {
+    let title = '首页'
+    return {
+      title: title,
+      imageUrl: '../../images/1.jpg',
+      success: function (res) {
+        console.log(res)
+      }
+    }
   }
 })

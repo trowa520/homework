@@ -42,21 +42,6 @@ page {
   background: white;
 }
 
-.subject-label {
-  padding-top: 10px;
-  margin-left: 15px;
-  font-size: 30rpx;
-  display: block;
-  font-weight: bold;
-}
-
-.content-label {
-  padding-top: 10px;
-  margin-left:15px;
-  display: block;
-  font-size: 30rpx;
-  font-weight: bold;
-}
 .grade-label {
   font-size: 30rpx;
   font-weight: bold;
@@ -133,27 +118,52 @@ page {
   padding-bottom:20rpx;
 }
 
-  
 .service_selection {  
-  background: #fff;  
+  padding-top: 10px;
   display: flex;
-  justify-content: space-around;
+  margin-left: 15px;
+  border-bottom-left-radius: 5rpx;
 }  
   
 .service_selection label {
-  margin-top: 10px;
-  background: rgb(248, 248, 248);  
-  padding: 0px 20px;  
   font-size: 26rpx;  
-  border-radius: 4px;  
+  border: 0 solid #d9d9d9;
+  border-left-width: 1px;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
   line-height: 40px;
-  display: inline-block;
 }  
+
+.service_selection .one {
+  background: white;
+  border: 0 solid #d9d9d9;
+  border-left-width: 1px;
+  border-bottom-width: 1px;
+  border-top-width: 1px;
+  border-bottom-left-radius: 10rpx;
+}
+
+.service_selection .four {
+  background: white;
+  border: 0 solid #d9d9d9;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-top-width: 1px;
+  border-bottom-right-radius: 10rpx;
+}
   
+.checkbox {
+  height: 62rpx;
+  width: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .service_selection .is_checked {  
   color: rgb(2, 209, 113);  
-  background: rgb(238, 251, 245);  
-  display: inline-block;
+  border: 1px solid rgb(2, 209, 113);
 }
 
 .pick-button {
@@ -179,11 +189,37 @@ textarea {
   width: 690rpx;
 }
 /*模态框*/
-.modals{position:fixed; z-index: 999; top:0; left: 0; right:0; bottom: 0;}
-.modals-cancel{position:absolute; z-index:1000; top:0; left: 0; right:0; bottom: 0; background-color: rgba(0,0,0,.5);}
-.bottom-dialog-body{position:absolute; z-index:10001; bottom:0; left:0; right:0; height:410rpx; background: rgb(247, 247, 247);}
+.modals {
+  position:fixed; 
+  z-index: 999; 
+  top:0; 
+  left: 0; 
+  right:0; 
+  bottom: 0;
+}
+.modals-cancel {
+  position:absolute; 
+  z-index:1000; 
+  top:0; 
+  left: 0; 
+  right:0; 
+  bottom: 0; 
+  background-color: rgba(0,0,0,.5);
+}
+.bottom-dialog-body {
+  position:absolute; 
+  z-index:10001; 
+  bottom:0; 
+  left:0; 
+  right:0; 
+  height:410rpx; 
+  background: rgb(247, 247, 247);
+}
 /*动画前初始位置*/
-.bottom-pos{-webkit-transform:translateY(100%);transform:translateY(100%);}
+.bottom-pos {
+  -webkit-transform:translateY(100%);
+  transform:translateY(100%);
+}
 
 .upload-main-bg-view {
   display: flex;
@@ -229,6 +265,7 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 50rpx;
 }
 
 .save-send-button {
@@ -238,7 +275,7 @@ textarea {
   text-align: center;
   color: white;
   display: flex;
-  margin-top: 30px;
+  margin-top: 30rpx;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
@@ -267,8 +304,12 @@ textarea {
   color: rgb(192, 192, 192);
   font-size: 15px;
   text-align: center;
+  margin-bottom:140rpx;
 }
 
  button::after{ 
    border: none; 
+}
+.advertisement-view.close {
+  display: none;
 }

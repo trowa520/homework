@@ -1,0 +1,92 @@
+/* pages/scorerecord/scorerecord.wxss */
+page {
+  height: 100%;
+  background: rgb(245, 245, 245);
+}
+
+.bg-view {
+  width: 100%;
+  height: 100%;
+}
+
+/* 兑换商品 */
+.exchange-main-bg-view {
+  margin-top: 3rpx;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+/* 积分兑换 字体 */
+.exchange-notice-view {
+  height: 80rpx;
+  border: solid 0px rgb(245, 245, 245);
+  border-bottom-width: 3rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+/* 记录列表 */
+.record-bg-view {
+  height: 100%;
+  border: solid 0px rgb(245, 245, 245);
+  border-bottom-width: 3rpx;
+}
+/* 记录卡片 */
+.record-view {
+  min-height: 150rpx;
+  display: flex;
+  border: solid 0px rgb(245, 245, 245);
+  border-bottom-width: 1px;
+}
+.record-detail-view {
+  height: 100%;
+  display: flex;
+  flex: 3;
+}
+/* 记录详情 */
+.record-desp-view {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 28rpx;
+}
+/* 记录名字 */
+.record-name-view {
+  margin: 25rpx 0 10rpx 30rpx;
+}
+
+/* 日期 */
+.date-view {
+  font-size: 24rpx;
+  color: rgb(170, 170, 170);
+  margin: 25rpx 0 25rpx 30rpx;
+}
+.old-price-view{
+  color:#FF6F10;
+  text-decoration:line-through;
+  margin-right: 15rpx;
+}
+/* 立即兑换 */
+.score-view::before {
+  content: "+"
+}
+
+.score-view {
+  display: flex;
+  margin-top: 44rpx;
+  color: rgb(255, 170 ,4);
+  margin-right: 30rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+
+.score-view.minus::before {
+  content: "-";
+}
+.score-view.minus {
+  color: black;
+}
+

@@ -1,9 +1,6 @@
 {
   "navigationBarTitleText": "作业详情",
   "usingComponents": {
-    "i-input": "../../dist/input/index",
-    "i-button": "../../dist/button/index",
-    "i-panel": "../../dist/panel/index",
     "i-card": "../../dist/card/index"
   }
 }

@@ -1,0 +1,11 @@
+<!--pages/exchange/exchange.wxml-->
+<view class='bg-view'>
+  <view class='qrcode-view'>
+    <image class='qrcode-image' src='../../images/custom_wechat.jpg'></image>
+  </view>
+  <view class='description-bg-view'>
+    <view class='description-view'>
+     截图保存二维码， 添加客服微信（微信号：xiaoxueshenglema），立即兑换礼品。
+    </view>
+  </view>
+</view>

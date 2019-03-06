@@ -2,8 +2,8 @@
     <view class="i-class i-card-header">
         <view class="i-card-header-content">
             <image class="i-card-header-thumb" src="{{ thumb }}" mode="aspectFit" wx:if="{{ thumb }}" />
-            {{ homework.week }}
-        <view class="i-card-header-date">{{ homework.date }}</view>
+            {{ homework.tag == '日常' || homework.tag == '周间日常' ? homework.week : homework.tag  }}
+        <view class="i-card-header-date">{{ homework.tag == '日常' || homework.tag == '周间日常' ? homework.date : ''}}</view>
         </view>
         <block wx:if="{{ homework.status == 0 }}">
           <view class="i-card-header-status">未发布</view>

@@ -1,0 +1,20 @@
+<!--pages/scorerecord/scorerecord.wxml-->
+<view class='bg-view'>
+  <view class='exchange-main-bg-view'>
+    <view class='exchange-notice-view'>积分余额：<view style='color:rgb(255,170,4)'>{{balance}}</view></view>
+    <view class='record-bg-view'>
+      <!-- 商品卡片 -->
+      <block wx:if="{{records}}" wx:key=""  data-id="" wx:for="{{records}}" wx:for-item="record">
+        <view class='record-view'>
+          <view class='record-detail-view'>
+            <view class='record-desp-view'>
+              <view class='record-name-view'>{{record.operate_type == '兑换礼品' ? record.operate_type + '--' + record.mark : record.operate_type}}</view>
+              <view class="date-view">{{record.date}}</view>
+            </view>
+          </view>
+          <view class="score-view {{record.type == 0 ? 'minus': ''}}" >{{record.score}}</view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

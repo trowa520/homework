@@ -14,6 +14,7 @@ Page({
 
     currentTab: 0, //预设当前项的值
     scrollLeft: 0, //tab标题的滚动条位置
+    images:[]
   },
   // 滚动切换标签样式
   switchTab: function (e) {
@@ -29,10 +30,7 @@ Page({
           schoolInfo: item,
           currentPage: 1
         })
-        wx.setStorage({
-          key: 'schoolInfo',
-          data: item
-        })
+        app.globalData.schoolInfo = item
         wx.showLoading({
           'title': '加载中...'
         })
@@ -49,10 +47,7 @@ Page({
       schoolInfo: schoolInfo,
       currentPage: 1
     })
-    wx.setStorage({
-      key: 'schoolInfo',
-      data: schoolInfo
-    })
+    app.globalData.schoolInfo = schoolInfo
     wx.showLoading({
       'title': '加载中...'
     })
@@ -71,20 +66,13 @@ Page({
       })
     }
   },
-  onLoad: function () {
-  },
   onShow: function () {
     var that = this
-    wx.getStorage({
-      key: 'schoolInfo',
-      success: function (res) {
-        that.setData({
-          schoolInfo: res.data,
-          currentPage: 1
-        })
-        that.getHomeworks(1)
-      },
+    that.setData({
+      schoolInfo: app.globalData.schoolInfo,
+      currentPage: 1
     })
+    that.getHomeworks(1)
     wx.getStorage({
       key: 'schools',
       success: function(res) {
@@ -92,7 +80,6 @@ Page({
         that.setData({
           schools: res.data
         })
-        console.log(res.data)
         res.data.forEach((item, index) => {
           if (item.id == that.data.schoolInfo.id) {
             that.setData({
@@ -109,9 +96,9 @@ Page({
   },
   // 获取作业列表
   getHomeworks: function (currentPage) {
-    var currentPage = currentPage
     let that = this
-    if (String.isBlank(that.data.schoolInfo)) {
+    var currentPage = currentPage
+    if (app.globalData.schoolInfo.school == '') {
       // 隐藏加载框  
       wx.hideLoading();
       // 隐藏导航栏加载框
@@ -129,7 +116,8 @@ Page({
           page: currentPage
         },
         header: {
-          'Authorization' : app.globalData.token
+          'Authorization' : app.globalData.token,
+          'Accept': 'application/vnd.leerzhi.v120+json'
         },
         success: function (res) {
           if (res.data.data.data.length > 0) {
@@ -149,6 +137,9 @@ Page({
               homeworks: []
             })
           }
+          that.setData({
+            images: res.data.images
+          })
           // 隐藏加载框  
           wx.hideLoading();
           // 隐藏导航栏加载框
@@ -205,12 +196,13 @@ Page({
   // 点击卡片 查看详情 事件
   clickDetail: function (e) {
     var that = this
+    var obj = e.currentTarget.dataset
     that.setData({
       hideModal: true,
       showFlex: true
     })
     wx.navigateTo({
-      url: '/pages/homework/homework?date=' + e.currentTarget.dataset.date + '&homework_id=' + e.currentTarget.dataset.homework_id,
+      url: '/pages/homework/homework?date=' + obj.date + '&parent_id_from_history=' + obj.parent_id + '&holiday=' + obj.holiday + '&status=' + obj.status,
     })
   },
   // 改变学校
@@ -220,10 +212,7 @@ Page({
       schoolInfo: schoolInfo,
       currentPage: 1
     })
-    wx.setStorage({
-      key: 'schoolInfo',
-      data: schoolInfo
-    })
+    app.globalData.schoolInfo = schoolInfo
     wx.showLoading({
       'title': '加载中...'
     })
@@ -231,13 +220,12 @@ Page({
   },
   // 图片预览
   showImages: function (e) {
+    var that = this
     console.log('展示图片')
-    var that = this;
-    let images = e.currentTarget.dataset.images
-    console.log(e)
+    let parent_id = e.currentTarget.dataset.parent_id
     wx.previewImage({
-      urls: images,
-      current: images[e.currentTarget.dataset.index]
+      urls: that.data.images[parent_id],
+      current: that.data.images[parent_id][e.currentTarget.dataset.index]
     })
     return
   },

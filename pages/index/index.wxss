@@ -139,3 +139,77 @@ page {
   transform:translateY(-100%);
   transition: 0.1s; 
 }
+
+.content-text {
+  display: -webkit-box;      
+  -webkit-box-orient: vertical;
+  overflow: hidden;  
+  -webkit-line-clamp: 3;  
+  /* text-overflow: clip;   */
+}
+
+.show-detail-view {
+  font-size:30rpx;
+  color: rgb(2, 209 ,113);
+  padding-bottom: 10px;    
+}
+
+.one-btn {
+  position: absolute;
+  bottom: 270rpx;
+  height: 100rpx;
+  width: 100%;
+}
+
+.i-know-btn1 {
+  position: absolute;
+  width: 100%;
+  bottom: 60rpx;
+  height: 100rpx;
+}
+
+.two-btn {
+  position: absolute;
+  width: 100%;
+  top: 210rpx;
+  height: 100rpx;
+}
+
+.i-know-btn2 {
+  position: absolute;
+  width: 100%;
+  bottom: 410rpx;
+  height: 100rpx; 
+}
+
+.three-btn {
+  position: absolute;
+  width: 100%;
+  bottom: 170rpx;
+  height: 100rpx;
+}
+
+.i-know-btn3 {
+  position: absolute;
+  width: 100%;
+  top: 420rpx;
+  height: 100rpx; 
+}
+
+.four-btn {
+  position: absolute;
+  width: 100%;
+  bottom: 30rpx;
+  height: 100rpx;
+}
+
+.i-know-btn4 {
+  position: absolute;
+  width: 100%;
+  top: 550rpx;
+  height: 100rpx; 
+}
+
+.advertisement-view.close {
+  display: none;
+}

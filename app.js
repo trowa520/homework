@@ -3,6 +3,7 @@ let http = require('./utils/request.js')
 App({
   globalData: {
     host: 'https://dev.xiangqingou.cn',
+    version: 111,
     userInfo: null,
     openId: '',
     sessionKey: '',
@@ -12,20 +13,18 @@ App({
     times: 0,
     score:0,
     mobile:0,
+    schoolInfo:{
+      id: 0,
+      school_id: 0,
+      school: '',
+      grade_id : 0,
+      grade: '',
+      class_id: 0,
+      virtual_class: '' 
+    }
   },
   onLaunch: function (res) {
     var that = this
-    // 判断进入小程序的场景  
-    this.globalData.scene = res.scene;
-    console.log(res)
-    var scenes = [1007, 1008];
-    var scene = scenes.indexOf(res.scene)
-    if (scene == -1) {
-      // wx.showToast({
-      //   title: '通过分享卡片进来',
-      //   icon: 'none'
-      // })
-    }
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -54,7 +53,7 @@ App({
         console.log('已经登录')
         resolve(that.globalData.token)
       } else {
-        wx.showLoading()
+        // wx.showLoading()
         // 登录
         wx.login({
           success: res => {

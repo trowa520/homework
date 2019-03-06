@@ -1,30 +1,22 @@
 <!--pages/homework/homework.wxml-->
 <view class='homeworkBGView'>
   <view class='school-view'>
-    <view class='left-school-view'>
-      学校
-    </view>
-    <view class='schoo-name-view'>
-       {{school}}
-    </view>
-    <view class='edit-school-view' data-school="{{school}}" bindtap="editSchool">
-      修改
-    </view>
+    <view class='left-school-view'>学校</view>
+    <view class='schoo-name-view'>{{school}}</view>
+    <view class='edit-school-view' data-school="{{school}}" bindtap="editSchool">修改</view>
   </view>
-  <view class='subject-view'>
-    <view>
-      <span class='subject-label'>学科</span>
+  <view class='grade-bgview'>
+    <view class="grade-view">
+      <label class='grade-label'>作业性质</label>
     </view>
-
-     <radio-group bindchange="chooseSubject">  
-        <view class="service_selection flex">  
-          <block wx:for="{{allSubjects}}" wx:key="{{allSubjects.value}}">  
-            <label class="checkbox {{item.checked?'is_checked':''}}">  
-              <checkbox value="{{item.value}}" checked="{{item.checked}}" hidden="false" />{{item.name}}  
-            </label>  
-          </block>  
-        </view>  
-      </radio-group>
+    <view class="choose-view">
+      <picker bindchange="chooseHoliday" value="{{holiday_index}}" range="{{holidays}}" >
+        <view class="pick-button black">{{holidays[holiday_index]}}</view>
+      </picker>
+      <view class='right-view'>
+        <image style='display:inline-block;width:14rpx;height:24rpx;' src='../../images/right.png'></image>
+      </view>
+    </view>
   </view>
   <view class='grade-bgview'>
     <view class="grade-view">
@@ -32,48 +24,104 @@
     </view>
     <view class="choose-view">
       <picker mode="multiSelector" bindchange="chooseGradeAndClass"  value="{{grade_class_index}}" range="{{grade_classes}}" range-key="{{'name'}}">
-        <view class="pick-button {{virtual_class == '' ? '' : 'black'}}">
-          {{grade || ''}}{{virtual_class}}
-        </view>
+        <view class="pick-button {{virtual_class == '' ? '' : 'black'}}">{{grade || ''}}{{virtual_class}}</view>
       </picker>
       <view class='right-view'>
         <image style='display:inline-block;width:14rpx;height:24rpx;' src='../../images/right.png'></image>
       </view>
     </view>
-  
   </view>
-  <view class='content-view'>
-    <label class='content-label'>作业内容</label>
-    <textarea class='content-input' type='textarea' auto-height maxlength='-1' bindinput="contentChange" placeholder='填写或粘贴作业内容' value='{{content}}'></textarea>
-    <view class='ui_uploader_cell'>
-      <!-- 图片 -->
-      <view class='ui_uploader_item' wx:for="{{uploaderList}}" wx:key="{{index}}">
-          <image bindtap='showImg' style='height:150rpx;width:150rpx' data-index="{{index}}" src='{{item}}'></image>
-          <cover-image class='delbtn' data-index="{{index}}" data-type="image" bindtap='clearImg' src='../../images/delete.png'></cover-image>
+  <view class='subject-view'>
+     <radio-group bindchange="chooseSubject">  
+        <view class="service_selection flex">  
+          <block wx:for="{{allSubjects}}" wx:index="{{index}}" wx:key="{{allSubjects.value}}">  
+            <label class="checkbox {{item.checked?'is_checked':''}} {{index == 0 ? 'one' : ''}} {{index == 3 ? 'four' : ''}}">  
+              <checkbox value="{{item.value}}" checked="{{item.checked}}" hidden="false" />{{item.name}}  
+            </label>  
+          </block>  
+        </view>  
+      </radio-group>
+    <block wx:if="{{subject == '语文'}}">
+      <textarea class='content-input' type='textarea' auto-height maxlength='-1' bindinput="contentChange" placeholder="请填写或粘贴语文作业内容" value='{{chinese.content}}'></textarea>
+      <view class='ui_uploader_cell'>
+        <!-- 图片 -->
+        <view class='ui_uploader_item' wx:for="{{chinese.uploaderList}}" wx:key="{{index}}">
+            <image bindtap='showImg' style='height:150rpx;width:150rpx' data-index="{{index}}" src='{{item}}'></image>
+            <cover-image class='delbtn' data-index="{{index}}" data-type="image" bindtap='clearImg' src='../../images/delete.png'></cover-image>
+        </view>
+        <!-- 视频 -->
+        <view class='ui_uploader_item' wx:for="{{chinese.videoList}}" wx:key="{{index}}">
+            <video  style='height:150rpx;width:150rpx' bindfullscreenchange="bindVideoScreenChange" data-index="{{index}}" src='{{item.tempFilePath}}' controls></video>
+            <cover-image class='delbtn' data-index="{{index}}" data-type="video" bindtap='clearVideo' src='../../images/delete.png'></cover-image>
+        </view>
+        <!-- 上传 -->
+        <view class="ui_uploader" bindtap='showModal' wx:if="{{showUpload}}">
+          <image class="uploader-bid-image" style='background:rgb(248,248,248);padding:50rpx;height:50rpx;width:50rpx' src="../../images/add.png" mode='widthFix'></image>
+        </view>
       </view>
-      <!-- 视频 -->
-      <view class='ui_uploader_item' wx:for="{{videoList}}" wx:key="{{index}}">
-          <video  style='height:150rpx;width:150rpx' bindfullscreenchange="bindVideoScreenChange" data-index="{{index}}" src='{{item.tempFilePath}}' controls></video>
-          <cover-image class='delbtn' data-index="{{index}}" data-type="video" bindtap='clearVideo' src='../../images/delete.png'></cover-image>
+    </block>
+    <block wx:if="{{subject == '数学'}}">
+      <textarea class='content-input' type='textarea' auto-height maxlength='-1' bindinput="contentChange" placeholder="请填写或粘贴数学作业内容" value='{{math.content}}'></textarea>
+      <view class='ui_uploader_cell'>
+        <!-- 图片 -->
+        <view class='ui_uploader_item' wx:for="{{math.uploaderList}}" wx:key="{{index}}">
+            <image bindtap='showImg' style='height:150rpx;width:150rpx' data-index="{{index}}" src='{{item}}'></image>
+            <cover-image class='delbtn' data-index="{{index}}" data-type="image" bindtap='clearImg' src='../../images/delete.png'></cover-image>
+        </view>
+        <!-- 视频 -->
+        <view class='ui_uploader_item' wx:for="{{math.videoList}}" wx:key="{{index}}">
+            <video  style='height:150rpx;width:150rpx' bindfullscreenchange="bindVideoScreenChange" data-index="{{index}}" src='{{item.tempFilePath}}' controls></video>
+            <cover-image class='delbtn' data-index="{{index}}" data-type="video" bindtap='clearVideo' src='../../images/delete.png'></cover-image>
+        </view>
+        <!-- 上传 -->
+        <view class="ui_uploader" bindtap='showModal' wx:if="{{showUpload}}">
+          <image class="uploader-bid-image" style='background:rgb(248,248,248);padding:50rpx;height:50rpx;width:50rpx' src="../../images/add.png" mode='widthFix'></image>
+        </view>
       </view>
-      <!-- 上传 -->
-      <view class="ui_uploader" bindtap='showModal' wx:if="{{showUpload}}">
-      <!-- <block wx:if="{{uploaderNum > 0}}"> -->
-        <image class="uploader-bid-image" style='background:rgb(248,248,248);padding:50rpx;height:50rpx;width:50rpx' src="../../images/add.png" mode='widthFix'></image>
-      <!-- </block> -->
-      <!-- <block wx:else>
-        <image class="uploader-image" style='margin-top:25px;height:50px;width:50px' src="../../images/add.png" mode='widthFix'></image>
-      </block> -->
+    </block>
+    <block wx:if="{{subject == '英语'}}">
+      <textarea class='content-input' type='textarea' auto-height maxlength='-1' bindinput="contentChange" placeholder="请填写或粘贴英语作业内容" value='{{english.content}}'></textarea>
+      <view class='ui_uploader_cell'>
+        <!-- 图片 -->
+        <view class='ui_uploader_item' wx:for="{{english.uploaderList}}" wx:key="{{index}}">
+            <image bindtap='showImg' style='height:150rpx;width:150rpx' data-index="{{index}}" src='{{item}}'></image>
+            <cover-image class='delbtn' data-index="{{index}}" data-type="image" bindtap='clearImg' src='../../images/delete.png'></cover-image>
+        </view>
+        <!-- 视频 -->
+        <view class='ui_uploader_item' wx:for="{{english.videoList}}" wx:key="{{index}}">
+            <video  style='height:150rpx;width:150rpx' bindfullscreenchange="bindVideoScreenChange" data-index="{{index}}" src='{{item.tempFilePath}}' controls></video>
+            <cover-image class='delbtn' data-index="{{index}}" data-type="video" bindtap='clearVideo' src='../../images/delete.png'></cover-image>
+        </view>
+        <!-- 上传 -->
+        <view class="ui_uploader" bindtap='showModal' wx:if="{{showUpload}}">
+          <image class="uploader-bid-image" style='background:rgb(248,248,248);padding:50rpx;height:50rpx;width:50rpx' src="../../images/add.png" mode='widthFix'></image>
+        </view>
       </view>
-    </view>
+    </block>
+    <block wx:if="{{subject == '其他'}}">
+      <textarea class='content-input' type='textarea' auto-height maxlength='-1' bindinput="contentChange" placeholder="请填写或粘贴其他作业内容" value='{{other.content}}'></textarea>
+      <view class='ui_uploader_cell'>
+        <!-- 图片 -->
+        <view class='ui_uploader_item' wx:for="{{other.uploaderList}}" wx:key="{{index}}">
+            <image bindtap='showImg' style='height:150rpx;width:150rpx' data-index="{{index}}" src='{{item}}'></image>
+            <cover-image class='delbtn' data-index="{{index}}" data-type="image" bindtap='clearImg' src='../../images/delete.png'></cover-image>
+        </view>
+        <!-- 视频 -->
+        <view class='ui_uploader_item' wx:for="{{other.videoList}}" wx:key="{{index}}">
+            <video  style='height:150rpx;width:150rpx' bindfullscreenchange="bindVideoScreenChange" data-index="{{index}}" src='{{item.tempFilePath}}' controls></video>
+            <cover-image class='delbtn' data-index="{{index}}" data-type="video" bindtap='clearVideo' src='../../images/delete.png'></cover-image>
+        </view>
+        <!-- 上传 -->
+        <view class="ui_uploader" bindtap='showModal' wx:if="{{showUpload}}">
+          <image class="uploader-bid-image" style='background:rgb(248,248,248);padding:50rpx;height:50rpx;width:50rpx' src="../../images/add.png" mode='widthFix'></image>
+        </view>
+      </view>
+    </block>
   </view>
   <view class='bottom-bg-view'>
-    <!-- <view class='save-send-button' data-status='1' bindtap='arrangeHomework'>
-      保存并发布
-    </view> -->
     <button class='save-send-button' data-status='1' open-type="{{openType}}" bindgetphonenumber="arrangeHomework" bindtap='arrangeHomework'>保存并发布</button>
-    <block wx:if="{{homework_id > 0}}">
-      <button wx:if="{{homework.status == 0}}" class='save-button' open-type="{{openType}}" data-status='0' bindgetphonenumber="arrangeHomework" bindtap='arrangeHomework'>
+    <block wx:if="{{parent_id_from_history > 0}}">
+      <button wx:if="{{status == 0}}" class='save-button' open-type="{{openType}}" data-status='0' bindgetphonenumber="arrangeHomework" bindtap='arrangeHomework'>
         保存
       </button>
     </block>
@@ -82,14 +130,11 @@
         保存
       </button>
     </block>
-    <!-- <button class='save-button' open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 保存并发送同学 </button> -->
     <view class='award-notice-view'>
-      <label>您已发送{{times}}次作业，获得{{score}}</label>
-      <image style='margin-left:5px;width:12px;height:12px;' src='../../images/like.png'></image>
+      <label>每天首次发布作业可获得 4 积分</label>
     </view>
   </view>
 </view>
-
 <!-- 模态下拉框 -->
 <cover-view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
     <cover-view class="modals-cancel" bindtap="hideModal"></cover-view>
@@ -120,7 +165,25 @@
     </cover-view>
 </cover-view>
 
+<!-- 奖励积分弹出框 -->
+<!-- mask -->
+<view class="drawer-screen" bindtap="powerDrawer" wx:if="{{showModalStatus}}"></view>
+<!--content-->
+<!--使用animation属性指定需要执行的动画-->
+<view animation="{{animationData}}" class="drawer-box" wx:if="{{showModalStatus}}">
+  <!--drawer content-->
+  <view class="drawer-content">
+    <view class='drawer-notice'>发布作业成功</view>
+    <view class="coin-socre-view">
+      <image style='width:89rpx;height:89rpx;margin-right:15rpx;' src='../../images/coin.png'></image>
+      +4分
+    </view>
+  </view>
+</view>
 
-
-
-
+<!-- 广告位 -->
+<view class="advertisement-view {{showAdView ? '' : 'close'}}" bindtap='navigateToShare'>
+  <image class='circle-close' bindtap='closeAd' src='../../images/circle_close.png'></image>
+</view>
+<!-- 客服 -->
+<button class="right-flex-custom-view" style="" open-type="contact"></button>

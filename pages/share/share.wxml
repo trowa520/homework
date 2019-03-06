@@ -1,0 +1,9 @@
+<!--pages/share/share.wxml-->
+
+<view class='activity-view'>
+  <image class='activity-image' src='../../images/share.jpg'></image>
+</view>
+<view class='btn-bg-view'>
+  <button class='save-button' open-type='share'>分享</button>
+  <button class='back-button' bindtap='backToHome'>返回首页</button>
+</view>
